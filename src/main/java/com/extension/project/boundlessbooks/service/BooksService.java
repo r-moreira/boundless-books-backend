@@ -51,6 +51,7 @@ public class BooksService {
         log.info("Updating book with id: {}", id);
 
         Optional<BookMetadata> optionalBook = booksRepository.findById(id);
+
         if (optionalBook.isEmpty()) {
             throw new NotFoundException("Book not found");
         }
