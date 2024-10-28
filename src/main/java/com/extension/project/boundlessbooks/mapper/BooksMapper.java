@@ -3,6 +3,7 @@ package com.extension.project.boundlessbooks.mapper;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
 import com.extension.project.boundlessbooks.model.entity.BookMetadata;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper

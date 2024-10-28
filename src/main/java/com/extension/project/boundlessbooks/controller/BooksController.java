@@ -2,6 +2,7 @@ package com.extension.project.boundlessbooks.controller;
 
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
 import com.extension.project.boundlessbooks.service.BooksService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,14 @@ public class BooksController {
     }
 
     @PostMapping
-    public BookMetadataDto createBook(@RequestBody BookMetadataDto bookMetadataDto) {
+    public BookMetadataDto createBook(@Valid @RequestBody BookMetadataDto bookMetadataDto) {
         return booksService.createBook(bookMetadataDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookMetadataDto> updateBook(@PathVariable Long id, @RequestBody BookMetadataDto bookMetadataDto) {
+    public ResponseEntity<BookMetadataDto> updateBook(
+            @PathVariable Long id,
+            @Valid @RequestBody BookMetadataDto bookMetadataDto) {
         BookMetadataDto updatedBook = booksService.updateBook(id, bookMetadataDto);
         return ResponseEntity.ok(updatedBook);
     }
