@@ -12,5 +12,9 @@ public interface BooksMapper {
 
     BookMetadataDto toDto(BookMetadata bookMetadata);
 
+    @Mapping(target = "id", ignore = true)
     BookMetadata toEntity(BookMetadataDto bookMetadataDto);
+
+    @Mapping(target = "id", source = "id")
+    BookMetadata toIdentifiedEntity(BookMetadataDto bookMetadataDto, Long id);
 }

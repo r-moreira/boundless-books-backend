@@ -57,7 +57,9 @@ public class BooksService {
 
         return BooksMapper.INSTANCE.toDto(
                 booksRepository.save(
-                        BooksMapper.INSTANCE.toEntity(bookMetadataDto
+                        BooksMapper.INSTANCE.toIdentifiedEntity(
+                                bookMetadataDto,
+                                id
                         )
                 )
         );
