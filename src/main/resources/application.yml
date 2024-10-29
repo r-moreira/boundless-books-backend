@@ -5,6 +5,12 @@ spring:
     username: postgres
     password: postgres
     url: jdbc:postgresql://localhost:5432/postgres
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 10
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
   flyway:
     baseline-on-migrate: true
     validate-on-migrate: true
@@ -18,8 +24,8 @@ spring:
       client:
         registration:
           google:
-            clientId: 700086744673-keplb3hc6ere9uiqddg4aleho4i08g37.apps.googleusercontent.com
-            clientSecret: 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
+            clientId: 374252744356-4liottt9e4hon2gb2abdb7r3i9eue9n0.apps.googleusercontent.com
+            clientSecret: ${GOOGLE_OAUTH2_CLIENT_SECRET}
 
 logging:
   level:
