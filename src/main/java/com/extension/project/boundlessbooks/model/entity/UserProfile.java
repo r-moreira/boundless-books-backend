@@ -17,7 +17,7 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
-    @OneToOne(mappedBy = "userProfile")
+    @OneToOne
     @MapsId
     private GoogleUser googleUser;
 }

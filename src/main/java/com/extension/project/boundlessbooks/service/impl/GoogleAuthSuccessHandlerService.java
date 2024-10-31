@@ -1,7 +1,9 @@
 package com.extension.project.boundlessbooks.service.impl;
 
 import com.extension.project.boundlessbooks.model.entity.GoogleUser;
+import com.extension.project.boundlessbooks.model.entity.UserProfile;
 import com.extension.project.boundlessbooks.repository.GoogleUserRepository;
+import com.extension.project.boundlessbooks.repository.UserProfileRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Service
 public class GoogleAuthSuccessHandlerService implements AuthenticationSuccessHandler {
-    GoogleUserRepository googleUserRepository;
+    private final GoogleUserRepository googleUserRepository;
+    private final UserProfileRepository userProfileRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -30,9 +33,15 @@ public class GoogleAuthSuccessHandlerService implements AuthenticationSuccessHan
             googleUser.setEmail(userDetails.getAttribute("email"));
             googleUser.setName(userDetails.getAttribute("name"));
 
-            googleUserRepository.save(googleUser);
 
-            response.sendRedirect("/api/v1/users/me"); // Redirect to frontend logged in page
+            if (!googleUserRepository.existsById(googleUser.getId())) {
+                UserProfile userProfile = new UserProfile();
+                userProfile.setGoogleUser(googleUser);
+                userProfileRepository.save(userProfile);
+            }
+
+
+            response.sendRedirect("/api/v1/users/hello");
         }
     }
 }

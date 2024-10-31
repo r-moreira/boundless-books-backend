@@ -23,7 +23,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-//    AuthenticationSuccessHandler successHandler;
+    private final AuthenticationSuccessHandler successHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -33,13 +33,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/books/**", "login/**").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2LoginCustomizer -> oauth2LoginCustomizer
-            .successHandler((request, response, authentication) -> {
-                if (authentication.getPrincipal() instanceof DefaultOAuth2User userDetails) {
-                    userDetails.getAttributes().forEach((key, value) -> log.info("Key: {}, Value: {}", key, value));
-                    //TODO: salvar attr "name", "email" e "sub" (Primary Key) no banco de dados
-                }
-                response.sendRedirect("/api/v1/users/me");
-            }))
+            .successHandler(successHandler))
             .build();
     }
 }

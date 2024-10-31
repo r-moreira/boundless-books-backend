@@ -23,7 +23,7 @@ public class GoogleUser{
     @Column(name = "name", columnDefinition = "VARCHAR(255)")
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "user_profile_id")
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "googleUser")
     private UserProfile userProfile;
 }
