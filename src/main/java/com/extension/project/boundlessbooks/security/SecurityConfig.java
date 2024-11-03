@@ -39,6 +39,12 @@ public class SecurityConfig {
                 .anyRequest().authenticated())
             .oauth2Login(oauth2LoginCustomizer -> oauth2LoginCustomizer
                 .successHandler(successHandler))
+                .logout(logoutCustomizer -> logoutCustomizer
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/api/v1/books")
+                .invalidateHttpSession(true)
+                .deleteCookies("BOUNDLESS_BOOKS_SESSION")
+                .permitAll())
             .build();
     }
 }
