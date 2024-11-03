@@ -1,5 +1,6 @@
 package com.extension.project.boundlessbooks.service.impl;
 
+import com.extension.project.boundlessbooks.mapper.GoogleUserMapper;
 import com.extension.project.boundlessbooks.model.entity.GoogleUser;
 import com.extension.project.boundlessbooks.model.entity.UserProfile;
 import com.extension.project.boundlessbooks.repository.GoogleUserRepository;
@@ -27,11 +28,8 @@ public class GoogleAuthSuccessHandlerService implements AuthenticationSuccessHan
     @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         if (authentication.getPrincipal() instanceof DefaultOAuth2User userDetails) {
-            GoogleUser googleUser = new GoogleUser();
 
-            googleUser.setId(userDetails.getAttribute("sub"));
-            googleUser.setEmail(userDetails.getAttribute("email"));
-            googleUser.setName(userDetails.getAttribute("name"));
+            GoogleUser googleUser = GoogleUserMapper.INSTANCE.fromOAuth2User(userDetails);
 
             if (!googleUserRepository.existsById(googleUser.getId())) {
                 UserProfile userProfile = new UserProfile();
