@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,15 +34,14 @@ public class GoogleAuthSuccessHandlerService implements AuthenticationSuccessHan
             googleUser.setEmail(userDetails.getAttribute("email"));
             googleUser.setName(userDetails.getAttribute("name"));
 
-
             if (!googleUserRepository.existsById(googleUser.getId())) {
                 UserProfile userProfile = new UserProfile();
                 userProfile.setGoogleUser(googleUser);
                 userProfileRepository.save(userProfile);
             }
 
-
-            response.sendRedirect("/api/v1/users/hello");
+              response.sendRedirect("/api/v1/users/hello");
         }
     }
+
 }

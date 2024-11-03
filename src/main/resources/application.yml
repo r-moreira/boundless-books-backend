@@ -19,6 +19,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  session:
+    jdbc:
+      initialize-schema: embedded
+      table-name: SPRING_SESSION
+      cleanup-cron: "0 0 * * * *" # top of every hour of every day
   security:
     oauth2:
       client:
