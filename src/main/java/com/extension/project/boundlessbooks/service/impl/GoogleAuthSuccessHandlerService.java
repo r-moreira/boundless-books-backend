@@ -15,7 +15,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class GoogleAuthSuccessHandlerService implements AuthenticationSuccessHan
                 userProfileRepository.save(userProfile);
             }
 
-            response.sendRedirect("/api/v1/users/hello");
+            response.sendRedirect("/api/v1/users/me");
         }
     }
 

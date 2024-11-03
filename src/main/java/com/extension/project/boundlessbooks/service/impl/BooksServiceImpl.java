@@ -3,7 +3,6 @@ package com.extension.project.boundlessbooks.service.impl;
 import com.extension.project.boundlessbooks.exception.NotFoundException;
 import com.extension.project.boundlessbooks.mapper.BooksMapper;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
-import com.extension.project.boundlessbooks.model.entity.BookMetadata;
 import com.extension.project.boundlessbooks.repository.BooksRepository;
 import com.extension.project.boundlessbooks.service.BooksService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

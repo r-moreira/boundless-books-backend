@@ -21,6 +21,8 @@ public class UsersController {
 
     @GetMapping("/me")
     public ResponseEntity<UserProfileDto> getCurrentUser(@AuthenticationPrincipal OidcUser oidcUser) {
+        log.info("OidcUser: {}", oidcUser.toString());
+
         UserProfileDto userProfileDto = userProfilesService.getUserProfileById(oidcUser.getAttributes().get("sub").toString());
 
         return ResponseEntity.ok().body(userProfileDto);
