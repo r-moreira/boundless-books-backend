@@ -6,6 +6,7 @@ import com.extension.project.boundlessbooks.repository.GoogleUserRepository;
 import com.extension.project.boundlessbooks.repository.UserProfileRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -24,10 +25,9 @@ public class GoogleAuthSuccessHandlerService implements AuthenticationSuccessHan
     private final UserProfileRepository userProfileRepository;
 
     @Override
+    @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         if (authentication.getPrincipal() instanceof DefaultOAuth2User userDetails) {
-            userDetails.getAttributes().forEach((key, value) -> log.info("Key: {}, Value: {}", key, value));
-
             GoogleUser googleUser = new GoogleUser();
 
             googleUser.setId(userDetails.getAttribute("sub"));
@@ -40,7 +40,7 @@ public class GoogleAuthSuccessHandlerService implements AuthenticationSuccessHan
                 userProfileRepository.save(userProfile);
             }
 
-              response.sendRedirect("/api/v1/users/hello");
+            response.sendRedirect("/api/v1/users/hello");
         }
     }
 

@@ -1,5 +1,7 @@
 package com.extension.project.boundlessbooks.controller;
 
+import com.extension.project.boundlessbooks.model.dto.UserProfileDto;
+import com.extension.project.boundlessbooks.service.UserProfilesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UsersController {
 
-    @GetMapping("/hello")
-    public ResponseEntity<String> getCurrent(@AuthenticationPrincipal OidcUser oidcUser) {
-        return ResponseEntity.ok("Hello, " + oidcUser.getFullName());
+    private final UserProfilesService userProfilesService;
+
+    @GetMapping("/me")
+    public ResponseEntity<UserProfileDto> getCurrentUser(@AuthenticationPrincipal OidcUser oidcUser) {
+        UserProfileDto userProfileDto = userProfilesService.getUserProfileById(oidcUser.getAttributes().get("sub").toString());
+
+        return ResponseEntity.ok().body(userProfileDto);
     }
 }

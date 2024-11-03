@@ -32,10 +32,9 @@ public class BooksServiceImpl implements BooksService {
     public BookMetadataDto getBookById(Long id) {
         log.info("Fetching book by id: {}", id);
 
-        var book = booksRepository.findById(id)
+       return booksRepository.findById(id)
+                .map(BooksMapper.INSTANCE::toDto)
                 .orElseThrow(() -> new NotFoundException("Book not found"));
-
-        return BooksMapper.INSTANCE.toDto(book);
     }
 
     public BookMetadataDto createBook(BookMetadataDto bookMetadataDto) {
@@ -51,11 +50,8 @@ public class BooksServiceImpl implements BooksService {
     public BookMetadataDto updateBook(Long id, BookMetadataDto bookMetadataDto) {
         log.info("Updating book with id: {}", id);
 
-        Optional<BookMetadata> optionalBook = booksRepository.findById(id);
-
-        if (optionalBook.isEmpty()) {
-            throw new NotFoundException("Book not found");
-        }
+        booksRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Book not found"));
 
         return BooksMapper.INSTANCE.toDto(
                 booksRepository.save(
@@ -70,9 +66,8 @@ public class BooksServiceImpl implements BooksService {
     public boolean deleteBook(Long id) {
         log.info("Deleting book with id: {}", id);
 
-        if (!booksRepository.existsById(id)) {
-            throw new NotFoundException("Book not found");
-        }
+        booksRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Book not found"));
 
         booksRepository.deleteById(id);
         return true;

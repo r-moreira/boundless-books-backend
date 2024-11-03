@@ -1,7 +1,11 @@
 package com.extension.project.boundlessbooks.service.impl;
 
+import com.extension.project.boundlessbooks.exception.NotFoundException;
+import com.extension.project.boundlessbooks.mapper.UserProfileMapper;
+import com.extension.project.boundlessbooks.model.dto.UserProfileDto;
 import com.extension.project.boundlessbooks.model.entity.GoogleUser;
 import com.extension.project.boundlessbooks.repository.GoogleUserRepository;
+import com.extension.project.boundlessbooks.repository.UserProfileRepository;
 import com.extension.project.boundlessbooks.service.UserProfilesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,14 +18,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserProfilesServiceImpl implements UserProfilesService {
 
-    private final GoogleUserRepository googleUserRepository;
+    private final UserProfileRepository userProfileRepository;
 
     @Override
-    public void getUserProfileById(String id) {
+    public UserProfileDto getUserProfileById(String id) {
         log.info("Fetching user profile by id: {}", id);
 
-        Optional<GoogleUser> googleUser = googleUserRepository.findById(id);
+        UserProfileDto userProfileDto = userProfileRepository.findById(id)
+                .map(UserProfileMapper.INSTANCE::toDto)
+                .orElseThrow(() -> new NotFoundException("User profile not found"));
 
-        googleUser.ifPresent(user -> log.info("User profile: {}", user));
+        log.info("User profile: {}", userProfileDto);
+
+        return userProfileDto;
+
     }
 }
