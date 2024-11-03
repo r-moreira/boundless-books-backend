@@ -20,6 +20,7 @@ spring:
       hibernate:
         format_sql: true
   session:
+    timeout: 1800
     jdbc:
       initialize-schema: embedded
       table-name: SPRING_SESSION

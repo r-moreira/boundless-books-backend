@@ -4,5 +4,5 @@ import com.extension.project.boundlessbooks.model.dto.UserProfileDto;
 
 public interface UserProfilesService {
 
-    UserProfileDto getUserProfileById(String id);
+    UserProfileDto getUserProfileById(String id, String iss);
 }

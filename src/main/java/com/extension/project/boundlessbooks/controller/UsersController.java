@@ -23,7 +23,10 @@ public class UsersController {
     public ResponseEntity<UserProfileDto> getCurrentUser(@AuthenticationPrincipal OidcUser oidcUser) {
         log.info("OidcUser: {}", oidcUser.toString());
 
-        UserProfileDto userProfileDto = userProfilesService.getUserProfileById(oidcUser.getAttributes().get("sub").toString());
+        UserProfileDto userProfileDto = userProfilesService.getUserProfileById(
+                oidcUser.getAttributes().get("sub").toString(),
+                oidcUser.getAttributes().get("iss").toString()
+        );
 
         return ResponseEntity.ok().body(userProfileDto);
     }
