@@ -1,27 +1,32 @@
 package com.extension.project.boundlessbooks.service.impl;
 
-import com.extension.project.boundlessbooks.model.entity.GoogleUser;
-import com.extension.project.boundlessbooks.repository.GoogleUserRepository;
+import com.extension.project.boundlessbooks.exception.NotFoundException;
+import com.extension.project.boundlessbooks.exception.NotImplementedException;
+import com.extension.project.boundlessbooks.mapper.UserProfileMapper;
+import com.extension.project.boundlessbooks.model.dto.UserProfileDto;
+import com.extension.project.boundlessbooks.repository.UserProfileRepository;
 import com.extension.project.boundlessbooks.service.UserProfilesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserProfilesServiceImpl implements UserProfilesService {
 
-    private final GoogleUserRepository googleUserRepository;
+    private final UserProfileRepository userProfileRepository;
 
     @Override
-    public void getUserProfileById(String id) {
-        log.info("Fetching user profile by id: {}", id);
+    public UserProfileDto getUserProfileById(String id, String iss) {
+        log.info("Fetching user profile by id: {} - iss: {}", id, iss);
 
-        Optional<GoogleUser> googleUser = googleUserRepository.findById(id);
+        if (!"https://accounts.google.com".equals(iss)) {
+            throw new NotImplementedException("Invalid Issuer: " + iss);
+        }
 
-        googleUser.ifPresent(user -> log.info("User profile: {}", user));
+        return userProfileRepository.findByGoogleUserId(id)
+                .map(UserProfileMapper.INSTANCE::toDto)
+                .orElseThrow(() -> new NotFoundException("User profile not found"));
     }
 }

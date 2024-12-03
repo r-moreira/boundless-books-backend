@@ -19,6 +19,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  session:
+    timeout: 1800
+    jdbc:
+      initialize-schema: embedded
+      table-name: SPRING_SESSION
+      cleanup-cron: "0 0 * * * *" # top of every hour of every day
   security:
     oauth2:
       client:
@@ -26,6 +32,12 @@ spring:
           google:
             clientId: 374252744356-4liottt9e4hon2gb2abdb7r3i9eue9n0.apps.googleusercontent.com
             clientSecret: ${GOOGLE_OAUTH2_CLIENT_SECRET}
+
+server:
+  servlet:
+    session:
+      cookie:
+        name: BOUNDLESS_BOOKS_SESSION
 
 logging:
   level:
