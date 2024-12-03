@@ -4,7 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -27,9 +31,32 @@ public class BookMetadata {
     @Column(name = "publisher", columnDefinition = "VARCHAR(255)")
     private String publisher;
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+    @Column(name = "category", columnDefinition = "VARCHAR(255)")
+    private String category;
 
-    @ManyToMany(mappedBy = "likedBooks")
-    private List<UserProfile> likedByUsers;
+    @Column(name = "synopsis", columnDefinition = "TEXT")
+    private String synopsis;
+
+    @Column(name = "release_date", columnDefinition = "DATE")
+    private Date releaseDate;
+
+    @Column(name = "cover_image_url", columnDefinition = "TEXT")
+    private String coverImageUrl;
+
+    @Column(name = "epub_url", columnDefinition = "TEXT")
+    private String epubUrl;
+
+    @ManyToMany(mappedBy = "favoriteBooks")
+    private List<UserProfile> favoriteByUsers;
+
+    @ManyToMany(mappedBy = "shelfBooks")
+    private List<UserProfile> shelfByUsers;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

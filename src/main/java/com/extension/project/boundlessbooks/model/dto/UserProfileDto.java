@@ -10,6 +10,9 @@ import java.util.List;
  */
 public record UserProfileDto(
         Long id,
-        List<BookMetadataDto> likedBooks,
-        GoogleUserDto googleUser
+        List<BookMetadataDto> favoriteBooks,
+        List<BookMetadataDto> shelfBooks,
+        GoogleUserDto googleUser,
+        String createdAt,
+        String updatedAt
 ) implements Serializable {}

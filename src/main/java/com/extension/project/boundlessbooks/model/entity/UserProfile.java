@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,12 +22,28 @@ public class UserProfile {
 
     @ManyToMany
     @JoinTable(
-            name = "user_liked_books",
+            name = "user_favorite_books",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
-    private List<BookMetadata> likedBooks;
+    private List<BookMetadata> favoriteBooks;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_shelf_books",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private List<BookMetadata> shelfBooks;
 
     @OneToOne(cascade = CascadeType.ALL)
     private GoogleUser googleUser;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }
