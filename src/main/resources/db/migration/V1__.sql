@@ -7,3 +7,20 @@ CREATE TABLE books_metadata
     description TEXT,
     CONSTRAINT pk_books_metadata PRIMARY KEY (id)
 );
+
+CREATE TABLE google_users
+(
+    id    VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    name  VARCHAR(255),
+    CONSTRAINT pk_google_users PRIMARY KEY (id)
+);
+
+CREATE TABLE user_profiles
+(
+    google_user_id VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_user_profiles PRIMARY KEY (google_user_id)
+);
+
+ALTER TABLE user_profiles
+    ADD CONSTRAINT FK_USER_PROFILES_ON_GOOGLEUSER FOREIGN KEY (google_user_id) REFERENCES google_users (id);
