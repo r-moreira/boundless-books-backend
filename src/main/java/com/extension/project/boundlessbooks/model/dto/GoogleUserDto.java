@@ -10,5 +10,7 @@ import java.io.Serializable;
 public record GoogleUserDto(
         String id,
         String email,
-        String name
+        String name,
+        String createdAt,
+        String updatedAt
 ) implements Serializable {}
