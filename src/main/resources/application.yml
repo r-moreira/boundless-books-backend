@@ -4,7 +4,7 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://db:5432/postgres
     hikari:
       minimum-idle: 10
       maximum-pool-size: 10
@@ -30,7 +30,7 @@ spring:
       client:
         registration:
           google:
-            clientId: 374252744356-4liottt9e4hon2gb2abdb7r3i9eue9n0.apps.googleusercontent.com
+            clientId: ${GOOGLE_OAUTH2_CLIENT_ID}
             clientSecret: ${GOOGLE_OAUTH2_CLIENT_SECRET}
 
 server:
