@@ -11,4 +11,4 @@ RUN mvn clean install
 
 WORKDIR /spring-boot-app/target
 
-CMD ["java","-jar","spring-boot-1.0.jar"]
+CMD ["java","-jar","boundless-books-0.0.1-SNAPSHOT.jar"]
