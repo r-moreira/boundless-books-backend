@@ -37,6 +37,9 @@ public class BookMetadata {
     @Column(name = "synopsis", columnDefinition = "TEXT")
     private String synopsis;
 
+    @Column(name = "pages", columnDefinition = "INTEGER")
+    private Integer pages;
+
     @Column(name = "release_date", columnDefinition = "DATE")
     private Date releaseDate;
 
