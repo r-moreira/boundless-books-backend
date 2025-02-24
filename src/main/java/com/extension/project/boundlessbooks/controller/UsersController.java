@@ -7,9 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -27,5 +25,26 @@ public class UsersController {
         );
 
         return ResponseEntity.ok().body(userProfileDto);
+    }
+
+    @PostMapping("/books/favorite/{bookId}")
+    public ResponseEntity<Void> addFavoriteBook(@AuthenticationPrincipal OidcUser oidcUser, @PathVariable Long bookId) {
+        userProfilesService.addFavoriteBook(
+                oidcUser.getAttributes().get("sub").toString(),
+                bookId
+        );
+
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @PostMapping("/books/shelf/{bookId}")
+    public ResponseEntity<Void> addBookToShelf(@AuthenticationPrincipal OidcUser oidcUser, @PathVariable Long bookId) {
+        userProfilesService.addBookToShelf(
+                oidcUser.getAttributes().get("sub").toString(),
+                bookId
+        );
+
+        return ResponseEntity.noContent().build();
     }
 }
