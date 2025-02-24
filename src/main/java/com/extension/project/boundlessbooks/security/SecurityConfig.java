@@ -35,7 +35,7 @@ public class SecurityConfig {
          return http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer
-                .requestMatchers("/api/v1/books/**", "login/**").permitAll()
+                .requestMatchers("/api/v1/books/**", "login/**", "/favicon.ico").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2LoginCustomizer -> oauth2LoginCustomizer
                 .successHandler(successHandler))
