@@ -24,6 +24,16 @@ public class UserProfilesServiceImpl implements UserProfilesService {
 
     private final BooksService booksService;
 
+    @Override
+    public UserProfileDto create(UserProfileDto userProfileDto) {
+        log.info("Creating user profile: {}", userProfileDto);
+
+        UserProfile userProfile = UserProfileMapper.INSTANCE.toEntity(userProfileDto);
+        UserProfile savedUserProfile = userProfileRepository.save(userProfile);
+
+        return UserProfileMapper.INSTANCE.toDto(savedUserProfile);
+    }
+
 
     @Override
     public UserProfileDto getUserProfileById(String id, String iss) {
