@@ -12,7 +12,11 @@ public interface BooksService {
 
     BookMetadataDto createBook(BookMetadataDto bookMetadataDto);
 
+    List<BookMetadataDto> createBooks(List<BookMetadataDto> bookMetadataDto);
+
     BookMetadataDto updateBook(Long id, BookMetadataDto bookMetadataDto);
 
-    boolean deleteBook(Long id);
+    void deleteBook(Long id);
+
+    void deleteAllBooks();
 }

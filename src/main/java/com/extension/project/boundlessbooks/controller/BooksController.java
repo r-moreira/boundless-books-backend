@@ -5,6 +5,7 @@ import com.extension.project.boundlessbooks.service.BooksService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,12 @@ public class BooksController {
         return booksService.createBook(bookMetadataDto);
     }
 
+
+    @PostMapping("/bulk")
+    public List<BookMetadataDto> createBooks(@Valid @RequestBody List<BookMetadataDto> bookMetadataDto) {
+        return booksService.createBooks(bookMetadataDto);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<BookMetadataDto> updateBook(
             @PathVariable Long id,
@@ -43,10 +50,13 @@ public class BooksController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        if (booksService.deleteBook(id)) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        booksService.deleteBook(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/bulk")
+    public ResponseEntity<Void> deleteBooks() {
+        booksService.deleteAllBooks();
+        return ResponseEntity.noContent().build();
     }
 }
