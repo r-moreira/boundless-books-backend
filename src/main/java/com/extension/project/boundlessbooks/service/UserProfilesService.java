@@ -10,5 +10,10 @@ public interface UserProfilesService {
 
     void addFavoriteBook(String id, Long bookId);
 
+    void removeFavoriteBook(String id, Long bookId);
+
     void addBookToShelf(String id, Long bookId);
+
+    void removeBookFromShelf(String id, Long bookId);
+
 }

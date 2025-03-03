@@ -35,3 +35,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+boundless-books-service-account.json
+
+.DS_Store

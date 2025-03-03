@@ -1,0 +1,222 @@
+[
+  {
+    "title": "A Seleção",
+    "author": "Kiera Cass",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "Uma competição para conquistar o coração de um príncipe.",
+    "releaseDate": "2012/01/01",
+    "pages": 368,
+    "coverImageUrl": "/assets/capa2.png",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "Eleanor & Park",
+    "author": "Rainbow Rowell",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "Uma história de amor entre dois adolescentes outsiders.",
+    "releaseDate": "2013/01/01",
+    "pages": 328,
+    "coverImageUrl": "/assets/capa_a_culpa_e_das_estrelas.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "Pessoas Normais",
+    "author": "Sally Rooney",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "A história de Connell e Marianne, dois jovens de mundos distintos, que desenvolvem uma relação profunda e complexa marcada por amizade, amor, descobertas pessoais e os desafios de se entenderem enquanto enfrentam as dificuldades da vida adulta.",
+    "releaseDate": "2018/01/01",
+    "pages": 368,
+    "coverImageUrl": "/assets/capa_pessoas_normais.png",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "O Ódio que Você Semeia",
+    "author": "Angie Thomas",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "Uma jovem testemunha de um crime que muda sua vida.",
+    "releaseDate": "2017/01/01",
+    "pages": 448,
+    "coverImageUrl": "/assets/capa1.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "O Livro dos Negócios",
+    "author": "João S. M.",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "Uma reflexão sobre empreendedorismo e suas práticas.",
+    "releaseDate": "2021/01/01",
+    "pages": 210,
+    "coverImageUrl": "/assets/capa4.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "Extraordinário",
+    "author": "R.J. Palacio",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "A história de um menino com uma deformidade facial.",
+    "releaseDate": "2012/01/01",
+    "pages": 320,
+    "coverImageUrl": "/assets/capa3.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "O Jogo do Exterminador",
+    "author": "Orson Scott Card",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "Ender Wiggin, um garoto brilhante, é treinado para liderar a defesa da Terra contra alienígenas. Enfrentando isolamento e dilemas morais, ele descobre o verdadeiro custo da guerra.",
+    "releaseDate": "1985/01/01",
+    "pages": 324,
+    "coverImageUrl": "/assets/capa1.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "Cinder",
+    "author": "Marissa Meyer",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "Uma reinterpretação futurística do conto da Cinderela.",
+    "releaseDate": "2012/01/01",
+    "pages": 387,
+    "coverImageUrl": "/assets/capa2.png",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "A Rainha Vermelha",
+    "author": "Victoria Aveyard",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "Um mundo dividido entre os de sangue vermelho e prateado.",
+    "releaseDate": "2015/01/01",
+    "pages": 383,
+    "coverImageUrl": "/assets/capa_a_culpa_e_das_estrelas.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "As Crônicas de Nárnia",
+    "author": "C.S. Lewis",
+    "publisher": "Unknown",
+    "category": "Romance",
+    "synopsis": "Quatro irmãos descobrem um mundo mágico.",
+    "releaseDate": "1950/01/01",
+    "pages": 768,
+    "coverImageUrl": "/assets/capa_pessoas_normais.png",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "Neuromancer",
+    "author": "William Gibson",
+    "publisher": "Unknown",
+    "category": "Ficção Científica",
+    "synopsis": "Um hacker é contratado para realizar um último grande golpe.",
+    "releaseDate": "1984/01/01",
+    "pages": 271,
+    "coverImageUrl": "/assets/capa3.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "Duna",
+    "author": "Frank Herbert",
+    "publisher": "Unknown",
+    "category": "Ficção Científica",
+    "synopsis": "Uma luta pelo controle de um planeta desértico.",
+    "releaseDate": "1965/01/01",
+    "pages": 412,
+    "coverImageUrl": "/assets/capa_pessoas_normais.png",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "Fahrenheit 451",
+    "author": "Ray Bradbury",
+    "publisher": "Unknown",
+    "category": "Ficção Científica",
+    "synopsis": "Em um futuro onde os livros são proibidos.",
+    "releaseDate": "1953/01/01",
+    "pages": 158,
+    "coverImageUrl": "/assets/capa1.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "O Guia do Mochileiro das Galáxias",
+    "author": "Douglas Adams",
+    "publisher": "Unknown",
+    "category": "Ficção Científica",
+    "synopsis": "Uma comédia intergaláctica cheia de absurdos.",
+    "releaseDate": "1979/01/01",
+    "pages": 224,
+    "coverImageUrl": "/assets/capa4.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "A Máquina do Tempo",
+    "author": "H.G. Wells",
+    "publisher": "Unknown",
+    "category": "Ficção Científica",
+    "synopsis": "Um viajante do tempo explora o futuro distante.",
+    "releaseDate": "1895/01/01",
+    "pages": 118,
+    "coverImageUrl": "/assets/capa2.png",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "Snow Crash",
+    "author": "Neal Stephenson",
+    "publisher": "Unknown",
+    "category": "Ficção Científica",
+    "synopsis": "Um mergulho em um mundo virtual e perigoso.",
+    "releaseDate": "1992/01/01",
+    "pages": 480,
+    "coverImageUrl": "/assets/capa_a_culpa_e_das_estrelas.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "O Jogo do Exterminador",
+    "author": "Orson Scott Card",
+    "publisher": "Unknown",
+    "category": "Recomendados para Você",
+    "synopsis": "Um jovem prodígio é treinado para salvar a humanidade.",
+    "releaseDate": "1985/01/01",
+    "pages": 324,
+    "coverImageUrl": "/assets/capa1.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "Cinder",
+    "author": "Marissa Meyer",
+    "publisher": "Unknown",
+    "category": "Recomendados para Você",
+    "synopsis": "Uma reinterpretação futurística do conto da Cinderela.",
+    "releaseDate": "2012/01/01",
+    "pages": 387,
+    "coverImageUrl": "/assets/capa2.png",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "A Rainha Vermelha",
+    "author": "Victoria Aveyard",
+    "publisher": "Unknown",
+    "category": "Recomendados para Você",
+    "synopsis": "Um mundo dividido entre os de sangue vermelho e prateado.",
+    "releaseDate": "2015/01/01",
+    "pages": 383,
+    "coverImageUrl": "/assets/capa_a_culpa_e_das_estrelas.jpg",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  },
+  {
+    "title": "As Crônicas de Nárnia",
+    "author": "C.S. Lewis",
+    "publisher": "Unknown",
+    "category": "Recomendados para Você",
+    "synopsis": "Quatro irmãos descobrem um mundo mágico.",
+    "releaseDate": "1950/01/01",
+    "pages": 768,
+    "coverImageUrl": "/assets/capa_pessoas_normais.png",
+    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
+  }
+]
