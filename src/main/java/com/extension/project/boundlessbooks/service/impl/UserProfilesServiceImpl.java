@@ -63,6 +63,17 @@ public class UserProfilesServiceImpl implements UserProfilesService {
     }
 
     @Override
+    public void removeFavoriteBook(String id, Long bookId) {
+        log.info("Removing favorite book with id: {} from user with id: {}", bookId, id);
+
+        UserProfile userProfile = userProfileRepository.findByGoogleUserId(id)
+                .orElseThrow(() -> new NotFoundException("User profile not found"));
+
+        userProfile.getFavoriteBooks().removeIf(book -> book.getId().equals(bookId));
+        userProfileRepository.save(userProfile);
+    }
+
+    @Override
     public void addBookToShelf(String id, Long bookId) {
         log.info("Adding book to shelf with id: {} to user with id: {}", bookId, id);
 
@@ -73,6 +84,18 @@ public class UserProfilesServiceImpl implements UserProfilesService {
         BookMetadata book = BooksMapper.INSTANCE.toIdentifiedEntity(bookDto, bookId);
 
         userProfile.getShelfBooks().add(book);
+        userProfileRepository.save(userProfile);
+    }
+
+    @Override
+    public void removeBookFromShelf(String id, Long bookId) {
+        log.info("Removing book from shelf with id: {} from user with id: {}", bookId, id);
+
+        UserProfile userProfile = userProfileRepository.findByGoogleUserId(id)
+                .orElseThrow(() -> new NotFoundException("User profile not found"));
+
+        userProfile.getShelfBooks().removeIf(book -> book.getId().equals(bookId));
+
         userProfileRepository.save(userProfile);
     }
 }

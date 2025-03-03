@@ -37,10 +37,30 @@ public class UsersController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/books/favorite/{bookId}")
+    public ResponseEntity<Void> removeFavoriteBook(@AuthenticationPrincipal OidcUser oidcUser, @PathVariable Long bookId) {
+        userProfilesService.removeFavoriteBook(
+                oidcUser.getAttributes().get("sub").toString(),
+                bookId
+        );
+
+        return ResponseEntity.noContent().build();
+    }
+
 
     @PostMapping("/books/shelf/{bookId}")
     public ResponseEntity<Void> addBookToShelf(@AuthenticationPrincipal OidcUser oidcUser, @PathVariable Long bookId) {
         userProfilesService.addBookToShelf(
+                oidcUser.getAttributes().get("sub").toString(),
+                bookId
+        );
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/books/shelf/{bookId}")
+    public ResponseEntity<Void> removeBookFromShelf(@AuthenticationPrincipal OidcUser oidcUser, @PathVariable Long bookId) {
+        userProfilesService.removeBookFromShelf(
                 oidcUser.getAttributes().get("sub").toString(),
                 bookId
         );
