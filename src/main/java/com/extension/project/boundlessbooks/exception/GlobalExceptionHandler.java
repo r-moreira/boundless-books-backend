@@ -20,9 +20,22 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new HttpErrorBody(
-                        null,
+                        ex.getMessage(),
                         HttpStatus.BAD_REQUEST.getReasonPhrase(),
                         HttpStatus.BAD_REQUEST.value()
+                ));
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<HttpErrorBody> handleUnauthorizedException(UnauthorizedException ex) {
+        log.error("Unauthorized", ex);
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new HttpErrorBody(
+                        ex.getMessage(),
+                        HttpStatus.FORBIDDEN.getReasonPhrase(),
+                        HttpStatus.FORBIDDEN.value()
                 ));
     }
 
