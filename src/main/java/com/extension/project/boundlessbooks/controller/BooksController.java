@@ -1,11 +1,12 @@
 package com.extension.project.boundlessbooks.controller;
 
+import com.extension.project.boundlessbooks.enums.BookCategory;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
 import com.extension.project.boundlessbooks.service.BooksService;
+import com.sun.jdi.BooleanValue;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,16 +1,13 @@
 package com.extension.project.boundlessbooks;
 
-import com.extension.project.boundlessbooks.enums.BookCategory;
 import io.documentnode.epub4j.domain.Book;
 import io.documentnode.epub4j.epub.EpubReader;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 
 @SpringBootApplication
 public class BoundlessBooksApplication implements CommandLineRunner {
