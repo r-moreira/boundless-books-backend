@@ -2,13 +2,11 @@ package com.extension.project.boundlessbooks.service.impl;
 
 import com.extension.project.boundlessbooks.exception.NotFoundException;
 import com.extension.project.boundlessbooks.mapper.BooksMapper;
-import com.extension.project.boundlessbooks.mapper.UserProfileMapper;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
 import com.extension.project.boundlessbooks.model.entity.BookMetadata;
 import com.extension.project.boundlessbooks.repository.BooksRepository;
 import com.extension.project.boundlessbooks.repository.UserProfileRepository;
 import com.extension.project.boundlessbooks.service.BooksService;
-import com.extension.project.boundlessbooks.service.UserProfilesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -121,4 +119,6 @@ public class BooksServiceImpl implements BooksService {
 
         booksRepository.deleteAll();
     }
+
+
 }

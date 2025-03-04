@@ -22,7 +22,7 @@ public class BookMetadata {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", columnDefinition = "VARCHAR(255)")
+    @Column(name = "title", columnDefinition = "VARCHAR(255)", unique = true)
     private String title;
 
     @Column(name = "author", columnDefinition = "VARCHAR(255)")
