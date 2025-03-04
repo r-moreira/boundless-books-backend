@@ -174,49 +174,5 @@
     "pages": 480,
     "coverImageUrl": "/assets/capa_a_culpa_e_das_estrelas.jpg",
     "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
-  },
-  {
-    "title": "O Jogo do Exterminador",
-    "author": "Orson Scott Card",
-    "publisher": "Unknown",
-    "category": "Recomendados para Você",
-    "synopsis": "Um jovem prodígio é treinado para salvar a humanidade.",
-    "releaseDate": "1985/01/01",
-    "pages": 324,
-    "coverImageUrl": "/assets/capa1.jpg",
-    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
-  },
-  {
-    "title": "Cinder",
-    "author": "Marissa Meyer",
-    "publisher": "Unknown",
-    "category": "Recomendados para Você",
-    "synopsis": "Uma reinterpretação futurística do conto da Cinderela.",
-    "releaseDate": "2012/01/01",
-    "pages": 387,
-    "coverImageUrl": "/assets/capa2.png",
-    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
-  },
-  {
-    "title": "A Rainha Vermelha",
-    "author": "Victoria Aveyard",
-    "publisher": "Unknown",
-    "category": "Recomendados para Você",
-    "synopsis": "Um mundo dividido entre os de sangue vermelho e prateado.",
-    "releaseDate": "2015/01/01",
-    "pages": 383,
-    "coverImageUrl": "/assets/capa_a_culpa_e_das_estrelas.jpg",
-    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
-  },
-  {
-    "title": "As Crônicas de Nárnia",
-    "author": "C.S. Lewis",
-    "publisher": "Unknown",
-    "category": "Recomendados para Você",
-    "synopsis": "Quatro irmãos descobrem um mundo mágico.",
-    "releaseDate": "1950/01/01",
-    "pages": 768,
-    "coverImageUrl": "/assets/capa_pessoas_normais.png",
-    "epubUrl": "/O-Cortiço-Aluísio-Azevedo.epub"
   }
 ]
