@@ -1,7 +1,7 @@
 application:
   api-key: ${API_KEY}
   flags:
-    enable-api-key-validation: true
+    enable-api-key-validation: ${API_KEY_VALIDATION_ENABLED:true}
 
 spring:
   application:
