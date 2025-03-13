@@ -1,5 +1,6 @@
 package com.extension.project.boundlessbooks.service.impl;
 
+import com.extension.project.boundlessbooks.configuration.ApplicationProperties;
 import com.extension.project.boundlessbooks.mapper.GoogleUserMapper;
 import com.extension.project.boundlessbooks.model.entity.GoogleUser;
 import com.extension.project.boundlessbooks.model.entity.UserProfile;
@@ -23,6 +24,7 @@ import java.io.IOException;
 public class GoogleAuthSuccessHandlerService implements AuthenticationSuccessHandler {
     private final GoogleUserRepository googleUserRepository;
     private final UserProfileRepository userProfileRepository;
+    private final ApplicationProperties applicationProperties;
 
     @Override
     @Transactional
@@ -37,7 +39,7 @@ public class GoogleAuthSuccessHandlerService implements AuthenticationSuccessHan
                 userProfileRepository.save(userProfile);
             }
 
-            response.sendRedirect("/api/v1/users/me");
+            response.sendRedirect(applicationProperties.getOauth2().getRedirectUri());
         }
     }
 

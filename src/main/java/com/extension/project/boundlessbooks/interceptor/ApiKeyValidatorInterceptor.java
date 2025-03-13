@@ -26,10 +26,14 @@ public class ApiKeyValidatorInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        String apiKey = request.getHeader(X_API_KEY_HEADER);
+        if (request.getRequestURI().contains("/books")
+                || request.getRequestURI().contains("/users")) {
 
-        if (apiKey == null || !apiKey.equals(applicationProperties.getApiKey())) {
-            throw new UnauthorizedException("Invalid API Key");
+            String apiKey = request.getHeader(X_API_KEY_HEADER);
+
+            if (apiKey == null || !apiKey.equals(applicationProperties.getApiKey())) {
+                throw new UnauthorizedException("Invalid API Key");
+            }
         }
 
         return true;
