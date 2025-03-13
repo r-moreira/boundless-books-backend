@@ -1,7 +1,9 @@
 application:
-  api-key: ${API_KEY}
   flags:
     enable-api-key-validation: ${API_KEY_VALIDATION_ENABLED:true}
+  api-key: ${API_KEY}
+  oauth2:
+    redirect-uri: http://localhost:5173
 
 spring:
   application:
