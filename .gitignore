@@ -4,6 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+notebook/epubs-dataset/
+
 .env
 
 todo.md
@@ -37,5 +39,4 @@ build/
 .vscode/
 
 boundless-books-service-account.json
-
 .DS_Store
