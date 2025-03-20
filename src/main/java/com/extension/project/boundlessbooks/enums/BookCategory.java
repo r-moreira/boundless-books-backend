@@ -16,6 +16,7 @@ public enum BookCategory {
     AVENTURA("Aventura", MainCategory.LITERATURA_E_FICCAO),
     BIOGRAFIAS_E_MEMORIAS("Biografias e Memórias", MainCategory.LITERATURA_E_FICCAO),
     FICCAO("Ficção", MainCategory.LITERATURA_E_FICCAO),
+    FANTASIA("Fantasia", MainCategory.LITERATURA_E_FICCAO),
     FICCAO_FANTASTICA("Ficção Fantástica", MainCategory.LITERATURA_E_FICCAO),
     FICCAO_CIENTIFICA("Ficção Científica", MainCategory.LITERATURA_E_FICCAO),
     CONTOS_E_CRONICAS("Contos e Crônicas", MainCategory.LITERATURA_E_FICCAO),
