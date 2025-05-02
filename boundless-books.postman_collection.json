@@ -254,13 +254,46 @@
 			"name": "users",
 			"item": [
 				{
+					"name": "users/validate-login",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
+								"type": "text"
+							},
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/validate-login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"validate-login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "users/me",
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{COOKIE}}",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
 								"type": "text"
 							},
 							{
@@ -293,7 +326,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{COOKIE}}",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
 								"type": "text"
 							},
 							{
@@ -312,7 +345,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/books/favorite/5",
+							"raw": "http://localhost:8080/api/v1/users/books/favorite/54",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -324,7 +357,7 @@
 								"users",
 								"books",
 								"favorite",
-								"5"
+								"54"
 							]
 						}
 					},
@@ -337,7 +370,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{COOKIE}}",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
 								"type": "text"
 							},
 							{
@@ -381,7 +414,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{COOKIE}}",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
 								"type": "text"
 							},
 							{
@@ -400,7 +433,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/books/shelf/2",
+							"raw": "http://localhost:8080/api/v1/users/books/shelf/55",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -412,7 +445,7 @@
 								"users",
 								"books",
 								"shelf",
-								"2"
+								"55"
 							]
 						}
 					},
@@ -425,7 +458,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{COOKIE}}",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
 								"type": "text"
 							},
 							{
@@ -463,78 +496,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "http://localhost:8080/api/v1/users/me",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
-					},
-					{
-						"key": "Accept-Language",
-						"value": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7"
-					},
-					{
-						"key": "Connection",
-						"value": "keep-alive"
-					},
-					{
-						"key": "Sec-Fetch-Dest",
-						"value": "document"
-					},
-					{
-						"key": "Sec-Fetch-Mode",
-						"value": "navigate"
-					},
-					{
-						"key": "Sec-Fetch-Site",
-						"value": "none"
-					},
-					{
-						"key": "Sec-Fetch-User",
-						"value": "?1"
-					},
-					{
-						"key": "Upgrade-Insecure-Requests",
-						"value": "1"
-					},
-					{
-						"key": "User-Agent",
-						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36"
-					},
-					{
-						"key": "sec-ch-ua",
-						"value": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\""
-					},
-					{
-						"key": "sec-ch-ua-mobile",
-						"value": "?0"
-					},
-					{
-						"key": "sec-ch-ua-platform",
-						"value": "\"macOS\""
-					}
-				],
-				"url": {
-					"raw": "http://localhost:8080/api/v1/users/me",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"users",
-						"me"
-					]
-				},
-				"description": "Generated from cURL:  curl 'http://localhost:8080/api/v1/users/me' \\\n  -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' \\\n  -H 'Accept-Language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7' \\\n  -H 'Connection: keep-alive' \\\n  -b 'BOUNDLESS_BOOKS_SESSION=OGNkY2E2YWQtNTQ1OS00ZjNmLWJjNmQtODJlZWUwN2U3N2Zl' \\\n  -H 'Sec-Fetch-Dest: document' \\\n  -H 'Sec-Fetch-Mode: navigate' \\\n  -H 'Sec-Fetch-Site: none' \\\n  -H 'Sec-Fetch-User: ?1' \\\n  -H 'Upgrade-Insecure-Requests: 1' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"'"
-			},
-			"response": []
 		}
 	]
 }

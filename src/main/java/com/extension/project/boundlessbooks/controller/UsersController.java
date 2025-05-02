@@ -1,5 +1,6 @@
 package com.extension.project.boundlessbooks.controller;
 
+import com.extension.project.boundlessbooks.model.dto.MessageDto;
 import com.extension.project.boundlessbooks.model.dto.UserProfileDto;
 import com.extension.project.boundlessbooks.service.UserProfilesService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
 
     private final UserProfilesService userProfilesService;
+
+    @GetMapping("/validate-login")
+    public ResponseEntity<MessageDto> validateLogin(@AuthenticationPrincipal OidcUser oidcUser) {
+        log.info("Validating login for user: {}", oidcUser.getEmail());
+        return ResponseEntity.ok().body(new MessageDto("User is logged in"));
+    }
 
     @GetMapping("/me")
     public ResponseEntity<UserProfileDto> getCurrentUser(@AuthenticationPrincipal OidcUser oidcUser) {

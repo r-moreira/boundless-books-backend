@@ -1,5 +1,7 @@
 package com.extension.project.boundlessbooks.security;
 
+import com.extension.project.boundlessbooks.configuration.ApplicationConfiguration;
+import com.extension.project.boundlessbooks.configuration.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.oauth2.client.JdbcOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -20,6 +23,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final ApplicationProperties properties;
     private final AuthenticationSuccessHandler successHandler;
 
     @Bean
@@ -31,20 +35,23 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationEntryPoint authenticationEntryPoint) throws Exception {
          return http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer
-                .requestMatchers("/api/v1/books/**", "login/**", "/favicon.ico").permitAll()
+                .requestMatchers("/api/v1/books/**", "/login/**", "/favicon.ico").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2LoginCustomizer -> oauth2LoginCustomizer
+                .loginPage("/oauth2/authorization/google")
                 .successHandler(successHandler))
                 .logout(logoutCustomizer -> logoutCustomizer
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/api/v1/books")
+                .logoutSuccessUrl(properties.getOauth2().getRedirectUri())
                 .invalidateHttpSession(true)
                 .deleteCookies("BOUNDLESS_BOOKS_SESSION")
                 .permitAll())
+             .exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
+                     .authenticationEntryPoint(authenticationEntryPoint))
             .build();
     }
 }
