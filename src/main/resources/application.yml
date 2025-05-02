@@ -1,6 +1,6 @@
 application:
   flags:
-    enable-api-key-validation: ${API_KEY_VALIDATION_ENABLED:true}
+    enable-api-key-validation: ${API_KEY_VALIDATION_ENABLED:false}
   api-key: ${API_KEY}
   oauth2:
     redirect-uri: http://localhost:5173
