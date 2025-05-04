@@ -10,6 +10,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/users")
@@ -17,6 +19,14 @@ import org.springframework.web.bind.annotation.*;
 public class UsersController {
 
     private final UserProfilesService userProfilesService;
+
+    @GetMapping("/search")
+    public ResponseEntity<List<UserProfileDto>> getAllUsers(
+            @RequestParam(value = "include-books", defaultValue = "false") boolean includeBooks
+    ) {
+        List<UserProfileDto> userProfiles = userProfilesService.getAllUserProfiles(includeBooks);
+        return ResponseEntity.ok().body(userProfiles);
+    }
 
     @GetMapping("/validate-login")
     public ResponseEntity<MessageDto> validateLogin(@AuthenticationPrincipal OidcUser oidcUser) {

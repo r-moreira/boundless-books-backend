@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,18 @@ public class UserProfilesServiceImpl implements UserProfilesService {
     private final UserProfileRepository userProfileRepository;
 
     private final BooksService booksService;
+
+    @Override
+    public List<UserProfileDto> getAllUserProfiles(boolean includeBooks) {
+        log.info("Fetching all user profiles");
+
+        return userProfileRepository.findAll()
+                .stream()
+                .map(includeBooks
+                        ? UserProfileMapper.INSTANCE::toDto
+                        : UserProfileMapper.INSTANCE::toDtoWithoutBooks)
+                .toList();
+    }
 
     @Override
     public UserProfileDto create(UserProfileDto userProfileDto) {

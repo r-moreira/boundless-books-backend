@@ -1,6 +1,5 @@
 package com.extension.project.boundlessbooks.security;
 
-import com.extension.project.boundlessbooks.configuration.ApplicationConfiguration;
 import com.extension.project.boundlessbooks.configuration.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,7 @@ public class SecurityConfig {
          return http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer
-                .requestMatchers("/api/v1/books/**", "/login/**", "/favicon.ico").permitAll()
+                .requestMatchers("/api/v1/books/**", "/login/**", "/favicon.ico", "api/v1/users/search").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2LoginCustomizer -> oauth2LoginCustomizer
                 .loginPage("/oauth2/authorization/google")

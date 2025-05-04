@@ -13,6 +13,10 @@ public interface UserProfileMapper {
     @Mapping(source = "googleUser", target = "googleUser")
     UserProfileDto toDto(UserProfile userProfile);
 
+    @Mapping(target = "favoriteBooks", ignore = true)
+    @Mapping(target = "shelfBooks", ignore = true)
+    UserProfileDto toDtoWithoutBooks(UserProfile userProfile);
+
     UserProfile toEntity(UserProfileDto userProfileDto);
 }
 
