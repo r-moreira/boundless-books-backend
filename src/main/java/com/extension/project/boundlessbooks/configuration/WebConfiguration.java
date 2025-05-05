@@ -1,6 +1,7 @@
 package com.extension.project.boundlessbooks.configuration;
 
 import com.extension.project.boundlessbooks.interceptor.ApiKeyValidatorInterceptor;
+import com.extension.project.boundlessbooks.interceptor.LoggerInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -13,6 +14,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     private final ApplicationProperties properties;
     private final ApiKeyValidatorInterceptor apiKeyValidatorInterceptor;
+    private final LoggerInterceptor loggerInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -26,5 +28,6 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(apiKeyValidatorInterceptor);
+        registry.addInterceptor(loggerInterceptor);
     }
 }

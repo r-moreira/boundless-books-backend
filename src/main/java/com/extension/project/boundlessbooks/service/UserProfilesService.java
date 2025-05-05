@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface UserProfilesService {
 
-    List<UserProfileDto> getAllUserProfiles(boolean includeBooks);
+    List<UserProfileDto> getAllUserProfiles(boolean includeBooks, String name);
 
     UserProfileDto create(UserProfileDto userProfileDto);
 
-    UserProfileDto getUserProfileById(String id, String iss);
+    UserProfileDto getUserProfileById(String id, String iss, boolean includeBooks);
 
     void addFavoriteBook(String id, Long bookId);
 

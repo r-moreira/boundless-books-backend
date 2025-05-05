@@ -41,13 +41,13 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/books/**", "/login/**", "/favicon.ico", "api/v1/users/search").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2LoginCustomizer -> oauth2LoginCustomizer
-                .loginPage("/oauth2/authorization/google")
+                .loginPage("/oauth2/authorization/google") //TODO: Receber valor via property
                 .successHandler(successHandler))
                 .logout(logoutCustomizer -> logoutCustomizer
-                .logoutUrl("/logout")
+                .logoutUrl("/logout") //TODO: Receber valor via property
                 .logoutSuccessUrl(properties.getOauth2().getRedirectUri())
                 .invalidateHttpSession(true)
-                .deleteCookies("BOUNDLESS_BOOKS_SESSION")
+                .deleteCookies("BOUNDLESS_BOOKS_SESSION") //TODO: Receber valor via property
                 .permitAll())
              .exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
                      .authenticationEntryPoint(authenticationEntryPoint))
