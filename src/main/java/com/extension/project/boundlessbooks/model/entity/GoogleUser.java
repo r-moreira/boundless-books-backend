@@ -13,9 +13,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "google_users")
 @NoArgsConstructor
 @ToString
+@Table(name = "google_users", indexes = {
+        @Index(name = "idx_google_user_name", columnList = "name")
+})
 public class GoogleUser{
 
     @Id

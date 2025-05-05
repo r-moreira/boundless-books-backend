@@ -20,11 +20,13 @@ public class UsersController {
 
     private final UserProfilesService userProfilesService;
 
+    //TODO: Implementar paginação
     @GetMapping("/search")
     public ResponseEntity<List<UserProfileDto>> getAllUsers(
-            @RequestParam(value = "include-books", defaultValue = "false") boolean includeBooks
+            @RequestParam(value = "include-books", defaultValue = "false") boolean includeBooks,
+            @RequestParam(value = "name", required = false) String name
     ) {
-        List<UserProfileDto> userProfiles = userProfilesService.getAllUserProfiles(includeBooks);
+        List<UserProfileDto> userProfiles = userProfilesService.getAllUserProfiles(includeBooks, name);
         return ResponseEntity.ok().body(userProfiles);
     }
 
@@ -35,10 +37,13 @@ public class UsersController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserProfileDto> getCurrentUser(@AuthenticationPrincipal OidcUser oidcUser) {
+    public ResponseEntity<UserProfileDto> getCurrentUser(
+            @AuthenticationPrincipal OidcUser oidcUser,
+            @RequestParam(value = "include-books", defaultValue = "true") boolean includeBooks) {
         UserProfileDto userProfileDto = userProfilesService.getUserProfileById(
                 oidcUser.getAttributes().get("sub").toString(),
-                oidcUser.getAttributes().get("iss").toString()
+                oidcUser.getAttributes().get("iss").toString(),
+                includeBooks
         );
 
         return ResponseEntity.ok().body(userProfileDto);

@@ -27,10 +27,13 @@ public class UserProfilesServiceImpl implements UserProfilesService {
     private final BooksService booksService;
 
     @Override
-    public List<UserProfileDto> getAllUserProfiles(boolean includeBooks) {
-        log.info("Fetching all user profiles");
+    public List<UserProfileDto> getAllUserProfiles(boolean includeBooks, String name) {
+        log.info("Fetching all user profiles: includeBooks={}, name={}", includeBooks, name);
 
-        return userProfileRepository.findAll()
+        return (name == null || name.isBlank()
+                        ? userProfileRepository.findAll()
+                        : userProfileRepository.findByNameContainingIgnoreCase(name)
+                )
                 .stream()
                 .map(includeBooks
                         ? UserProfileMapper.INSTANCE::toDto
@@ -50,7 +53,7 @@ public class UserProfilesServiceImpl implements UserProfilesService {
 
 
     @Override
-    public UserProfileDto getUserProfileById(String id, String iss) {
+    public UserProfileDto getUserProfileById(String id, String iss, boolean includeBooks) {
         log.info("Fetching user profile by id: {} - iss: {}", id, iss);
 
         if (!"https://accounts.google.com".equals(iss)) {
@@ -58,7 +61,9 @@ public class UserProfilesServiceImpl implements UserProfilesService {
         }
 
         return userProfileRepository.findByGoogleUserId(id)
-                .map(UserProfileMapper.INSTANCE::toDto)
+                .map(includeBooks
+                        ? UserProfileMapper.INSTANCE::toDto
+                        : UserProfileMapper.INSTANCE::toDtoWithoutBooks)
                 .orElseThrow(() -> new NotFoundException("User profile not found"));
     }
 

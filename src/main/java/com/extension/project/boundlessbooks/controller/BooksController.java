@@ -16,7 +16,13 @@ public class BooksController {
 
     private final BooksService booksService;
 
-
+    //TODO:
+    // Implementar paginação
+    // Implementar index de busca para title e author (%like%)
+    // Implementar filtro por título
+    // Implementar filtro por autor
+    // Implementar filtro por categoria
+    // Implementar filtro por data de lançamento
     @GetMapping
     public List<BookMetadataDto> getAllBooks() {
         return booksService.getAllBooks();
