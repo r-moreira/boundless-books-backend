@@ -10,7 +10,6 @@ import com.extension.project.boundlessbooks.repository.UserProfileRepository;
 import com.extension.project.boundlessbooks.service.BooksService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,29 +27,9 @@ public class BooksServiceImpl implements BooksService {
     public List<BookMetadataDto> getAllBooks(String title, String author, BookCategory category, Date releaseDate) {
         log.info("Fetching all books: title={}, author={}, category={}, releaseDate={}", title, author, category, releaseDate);
 
-        Specification<BookMetadata> spec = Specification.where(null);
+        var categoryName = category == null ? null : category.getDisplayName();
 
-        if (title != null && !title.isBlank()) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + title.toLowerCase() + "%"));
-        }
-
-        if (author != null && !author.isBlank()) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("author")), "%" + author.toLowerCase() + "%"));
-        }
-
-        if (category != null) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.equal(root.get("category"), category.getDisplayName()));
-        }
-
-        if (releaseDate != null) {
-            spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.equal(root.get("releaseDate"), releaseDate));
-        }
-
-        return booksRepository.findAll(spec)
+        return booksRepository.findBooksByFilters(title, author, categoryName, releaseDate)
                 .stream()
                 .map(BooksMapper.INSTANCE::toDto)
                 .toList();
