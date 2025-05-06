@@ -13,10 +13,10 @@ import java.util.List;
 public interface BooksRepository extends JpaRepository<BookMetadata, Long> {
 
     @Query("SELECT b FROM BookMetadata b " +
-            "WHERE (:title IS NULL OR b.title LIKE CONCAT('%', :title, '%')) " +
-            "AND (:author IS NULL OR b.author LIKE CONCAT('%', :author, '%')) " +
-            "AND (:category IS NULL OR b.category = :category) " +
-            "AND ((cast(:releaseDate AS DATE) IS NULL ) OR b.releaseDate = :releaseDate)")
+            "WHERE ((CAST(:title AS STRING) IS NULL) OR b.title LIKE CONCAT('%', CAST(:title AS STRING), '%')) " +
+            "AND ((CAST(:author AS STRING) IS NULL) OR b.author LIKE CONCAT('%', CAST(:author AS STRING), '%')) " +
+            "AND ((CAST(:category AS STRING) IS NULL) OR b.category = CAST(:category AS STRING)) " +
+            "AND ((CAST(:releaseDate AS DATE) IS NULL) OR b.releaseDate = :releaseDate)")
     List<BookMetadata> findBooksByFilters(
             @Param("title") String title,
             @Param("author") String author,
