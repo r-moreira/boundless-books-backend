@@ -25,9 +25,9 @@ public class BooksServiceImpl implements BooksService {
     private final UserProfileRepository userProfileRepository;
 
     public List<BookMetadataDto> getAllBooks(String title, String author, BookCategory category, Date releaseDate) {
-        log.info("Fetching all books: title={}, author={}, category={}, releaseDate={}", title, author, category, releaseDate);
-
         var categoryName = category == null ? null : category.getDisplayName();
+
+        log.info("Fetching all books: title={}, author={}, category={}, releaseDate={}", title, author, categoryName, releaseDate);
 
         return booksRepository.findBooksByFilters(title, author, categoryName, releaseDate)
                 .stream()
