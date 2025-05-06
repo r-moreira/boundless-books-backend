@@ -1,5 +1,6 @@
 package com.extension.project.boundlessbooks.service.impl;
 
+import com.extension.project.boundlessbooks.enums.BookCategory;
 import com.extension.project.boundlessbooks.exception.NotFoundException;
 import com.extension.project.boundlessbooks.mapper.BooksMapper;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
@@ -9,9 +10,11 @@ import com.extension.project.boundlessbooks.repository.UserProfileRepository;
 import com.extension.project.boundlessbooks.service.BooksService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -22,10 +25,32 @@ public class BooksServiceImpl implements BooksService {
     private final BooksRepository booksRepository;
     private final UserProfileRepository userProfileRepository;
 
-    public List<BookMetadataDto> getAllBooks() {
-        log.info("Fetching all books");
+    public List<BookMetadataDto> getAllBooks(String title, String author, BookCategory category, Date releaseDate) {
+        log.info("Fetching all books: title={}, author={}, category={}, releaseDate={}", title, author, category, releaseDate);
 
-        return booksRepository.findAll()
+        Specification<BookMetadata> spec = Specification.where(null);
+
+        if (title != null && !title.isBlank()) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + title.toLowerCase() + "%"));
+        }
+
+        if (author != null && !author.isBlank()) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("author")), "%" + author.toLowerCase() + "%"));
+        }
+
+        if (category != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("category"), category.getDisplayName()));
+        }
+
+        if (releaseDate != null) {
+            spec = spec.and((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("releaseDate"), releaseDate));
+        }
+
+        return booksRepository.findAll(spec)
                 .stream()
                 .map(BooksMapper.INSTANCE::toDto)
                 .toList();

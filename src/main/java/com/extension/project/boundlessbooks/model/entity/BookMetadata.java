@@ -14,7 +14,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "books_metadata")
+@Table(
+        name = "books_metadata",
+        indexes = {
+                @Index(name = "idx_title_author", columnList = "title, author")
+        }
+)
 @NoArgsConstructor
 public class BookMetadata {
 

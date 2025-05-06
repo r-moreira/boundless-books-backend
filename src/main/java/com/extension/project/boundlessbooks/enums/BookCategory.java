@@ -59,7 +59,7 @@ public enum BookCategory {
 
     public static BookCategory fromDisplayName(String displayName) {
         for (BookCategory category : BookCategory.values()) {
-            if (category.getDisplayName().equals(displayName)) {
+            if (category.getDisplayName().equalsIgnoreCase(displayName)) {
                 return category;
             }
         }

@@ -1,14 +1,18 @@
 package com.extension.project.boundlessbooks.controller;
 
+import com.extension.project.boundlessbooks.enums.BookCategory;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
 import com.extension.project.boundlessbooks.service.BooksService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/books")
 @RequiredArgsConstructor
@@ -16,16 +20,15 @@ public class BooksController {
 
     private final BooksService booksService;
 
-    //TODO:
-    // Implementar paginação
-    // Implementar index de busca para title e author (%like%)
-    // Implementar filtro por título
-    // Implementar filtro por autor
-    // Implementar filtro por categoria
-    // Implementar filtro por data de lançamento
+    //TODO: Implementar paginação
     @GetMapping
-    public List<BookMetadataDto> getAllBooks() {
-        return booksService.getAllBooks();
+    public List<BookMetadataDto> getAllBooks(
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "author", required = false) String author,
+            @RequestParam(value = "category", required = false) BookCategory category,
+            @RequestParam(value = "release-date", required = false) Date releaseDate
+    ) {
+        return booksService.getAllBooks(title, author, category, releaseDate);
     }
 
     @GetMapping("/{id}")

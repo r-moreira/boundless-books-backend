@@ -59,6 +59,28 @@
 								"api",
 								"v1",
 								"books"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Harry Potter",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "J.K. Rowling",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "Fantasia",
+									"disabled": true
+								},
+								{
+									"key": "release-date",
+									"value": "2003/06/21",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -254,6 +276,44 @@
 			"name": "users",
 			"item": [
 				{
+					"name": "users/search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/search?include-books=false&name=Rodrigo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "include-books",
+									"value": "false"
+								},
+								{
+									"key": "name",
+									"value": "Rodrigo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "users/validate-login",
 					"request": {
 						"method": "GET",
@@ -303,7 +363,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/me",
+							"raw": "http://localhost:8080/api/v1/users/me?include-books=false",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -314,6 +374,12 @@
 								"v1",
 								"users",
 								"me"
+							],
+							"query": [
+								{
+									"key": "include-books",
+									"value": "false"
+								}
 							]
 						}
 					},
@@ -345,7 +411,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/books/favorite/54",
+							"raw": "http://localhost:8080/api/v1/users/books/favorite/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -357,7 +423,7 @@
 								"users",
 								"books",
 								"favorite",
-								"54"
+								"2"
 							]
 						}
 					},
@@ -433,7 +499,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/books/shelf/55",
+							"raw": "http://localhost:8080/api/v1/users/books/shelf/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -445,7 +511,7 @@
 								"users",
 								"books",
 								"shelf",
-								"55"
+								"3"
 							]
 						}
 					},
