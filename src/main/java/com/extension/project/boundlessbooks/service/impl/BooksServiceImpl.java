@@ -1,5 +1,6 @@
 package com.extension.project.boundlessbooks.service.impl;
 
+import com.extension.project.boundlessbooks.enums.BookCategory;
 import com.extension.project.boundlessbooks.exception.NotFoundException;
 import com.extension.project.boundlessbooks.mapper.BooksMapper;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -22,10 +24,12 @@ public class BooksServiceImpl implements BooksService {
     private final BooksRepository booksRepository;
     private final UserProfileRepository userProfileRepository;
 
-    public List<BookMetadataDto> getAllBooks() {
-        log.info("Fetching all books");
+    public List<BookMetadataDto> getAllBooks(String title, String author, BookCategory category, Date releaseDate) {
+        log.info("Fetching all books: title={}, author={}, category={}, releaseDate={}", title, author, category, releaseDate);
 
-        return booksRepository.findAll()
+        var categoryName = category == null ? null : category.getDisplayName();
+
+        return booksRepository.findBooksByFilters(title, author, categoryName, releaseDate)
                 .stream()
                 .map(BooksMapper.INSTANCE::toDto)
                 .toList();

@@ -1,12 +1,14 @@
 package com.extension.project.boundlessbooks.service;
 
+import com.extension.project.boundlessbooks.enums.BookCategory;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BooksService {
 
-    List<BookMetadataDto> getAllBooks();
+    List<BookMetadataDto> getAllBooks(String title, String author, BookCategory category, Date releaseDate);
 
     BookMetadataDto getBookById(Long id);
 

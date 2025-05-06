@@ -8,12 +8,18 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({HttpMessageNotReadableException.class})
+    @ExceptionHandler({
+            HttpMessageNotReadableException.class,
+            IllegalArgumentException.class,
+            BadRequestException.class,
+            MethodArgumentTypeMismatchException.class
+    })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<HttpErrorBody> handleBadRequest(Exception ex) {
         log.error("Bad Request", ex);
