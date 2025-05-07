@@ -13,6 +13,8 @@ import com.extension.project.boundlessbooks.service.BooksService;
 import com.extension.project.boundlessbooks.service.UserProfilesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +41,19 @@ public class UserProfilesServiceImpl implements UserProfilesService {
                         ? UserProfileMapper.INSTANCE::toDto
                         : UserProfileMapper.INSTANCE::toDtoWithoutBooks)
                 .toList();
+    }
+
+    public Page<UserProfileDto> getAllUserProfilesPaginated(boolean includeBooks, String name, Pageable pageable) {
+        log.info("Fetching paginated user profiles: includeBooks={}, name={}, pageable={}", includeBooks, name, pageable);
+
+        Page<UserProfile> userProfilesPage = (name == null || name.isBlank()
+                        ? userProfileRepository.findAll(pageable)
+                        : userProfileRepository.findByNameContainingIgnoreCaseWithPagination(name, pageable)
+                );
+
+        return userProfilesPage.map(includeBooks
+                ? UserProfileMapper.INSTANCE::toDto
+                : UserProfileMapper.INSTANCE::toDtoWithoutBooks);
     }
 
     @Override

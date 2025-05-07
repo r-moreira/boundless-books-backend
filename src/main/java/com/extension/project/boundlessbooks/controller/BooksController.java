@@ -6,6 +6,9 @@ import com.extension.project.boundlessbooks.service.BooksService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +23,6 @@ public class BooksController {
 
     private final BooksService booksService;
 
-    //TODO: Implementar paginação
     @GetMapping
     public List<BookMetadataDto> getAllBooks(
             @RequestParam(value = "title", required = false) String title,
@@ -29,6 +31,19 @@ public class BooksController {
             @RequestParam(value = "release-date", required = false) Date releaseDate
     ) {
         return booksService.getAllBooks(title, author, category, releaseDate);
+    }
+
+    @GetMapping("/paginated")
+    public Page<BookMetadataDto> getAllBooksPaginated(
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "author", required = false) String author,
+            @RequestParam(value = "category", required = false) BookCategory category,
+            @RequestParam(value = "release-date", required = false) Date releaseDate,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return booksService.getAllBooksPaginated(title, author, category, releaseDate, pageable);
     }
 
     @GetMapping("/{id}")
