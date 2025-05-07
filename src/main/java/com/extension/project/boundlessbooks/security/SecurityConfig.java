@@ -38,7 +38,7 @@ public class SecurityConfig {
          return http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer
-                .requestMatchers("/api/v1/books/**", "/login/**", "/favicon.ico", "api/v1/users/search").permitAll()
+                .requestMatchers("/api/v1/books/**", "/login/**", "/favicon.ico", "api/v1/users/search/**").permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2LoginCustomizer -> oauth2LoginCustomizer
                 .loginPage("/oauth2/authorization/google") //TODO: Receber valor via property

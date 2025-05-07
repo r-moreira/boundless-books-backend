@@ -10,6 +10,8 @@ import com.extension.project.boundlessbooks.repository.UserProfileRepository;
 import com.extension.project.boundlessbooks.service.BooksService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,15 @@ public class BooksServiceImpl implements BooksService {
                 .stream()
                 .map(BooksMapper.INSTANCE::toDto)
                 .toList();
+    }
+
+    public Page<BookMetadataDto> getAllBooksPaginated(String title, String author, BookCategory category, Date releaseDate, Pageable pageable) {
+        var categoryName = category == null ? null : category.getDisplayName();
+
+        log.info("Fetching paginated books: title={}, author={}, category={}, releaseDate={}, pageable={}", title, author, categoryName, releaseDate, pageable);
+
+        return booksRepository.findBooksByFiltersWithPagination(title, author, categoryName, releaseDate, pageable)
+                .map(BooksMapper.INSTANCE::toDto);
     }
 
     public BookMetadataDto getBookById(Long id) {
