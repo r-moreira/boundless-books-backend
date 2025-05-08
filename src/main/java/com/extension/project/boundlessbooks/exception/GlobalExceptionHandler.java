@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @ControllerAdvice
@@ -47,7 +48,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<HttpErrorBody> handleBookNotFoundException(NotFoundException ex) {
+    public ResponseEntity<HttpErrorBody> handleNotFoundException(NotFoundException ex) {
         log.error("Resource not found", ex);
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
