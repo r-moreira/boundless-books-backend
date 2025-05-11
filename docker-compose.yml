@@ -19,7 +19,7 @@ services:
       - API_KEY_VALIDATION_ENABLED=true
   db:
     container_name: postgres
-    image: postgres
+    image: postgres:17.4
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -31,3 +31,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

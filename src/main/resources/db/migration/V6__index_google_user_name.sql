@@ -1,1 +1,0 @@
-CREATE INDEX idx_google_user_name ON google_users (name);

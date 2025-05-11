@@ -1,14 +1,23 @@
-FROM ubuntu:22.04
+FROM bellsoft/liberica-runtime-container:jdk-21-stream-musl as builder
 
-RUN apt-get update
-RUN apt-get install -y openjdk-21-jdk openjdk-21-jre maven
+COPY . /app
 
-COPY . /spring-boot-app
+WORKDIR /app
 
-WORKDIR /spring-boot-app
+RUN ./mvnw package
 
-RUN mvn clean install
+FROM bellsoft/liberica-runtime-container:jdk-21-cds-slim-musl as optimizer
 
-WORKDIR /spring-boot-app/target
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+RUN java -Djarmode=tools -jar app.jar extract --layers --launcher --destination extracted
 
-CMD ["java","-jar","boundless-books-0.0.1-SNAPSHOT.jar"]
+FROM bellsoft/liberica-runtime-container:jre-21-stream-musl
+
+EXPOSE 8080
+COPY --from=optimizer /app/extracted/dependencies/ ./
+COPY --from=optimizer /app/extracted/spring-boot-loader/ ./
+COPY --from=optimizer /app/extracted/snapshot-dependencies/ ./
+COPY --from=optimizer /app/extracted/application/ ./
+
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]

@@ -7,6 +7,7 @@ CREATE TABLE books_metadata
     category        VARCHAR(255),
     synopsis        TEXT,
     release_date    date,
+    pages           INTEGER,
     cover_image_url TEXT,
     epub_url        TEXT,
     created_at      TIMESTAMP WITHOUT TIME ZONE,
@@ -59,3 +60,10 @@ ALTER TABLE user_shelf_books
 
 ALTER TABLE user_shelf_books
     ADD CONSTRAINT fk_usesheboo_on_user_profile FOREIGN KEY (user_id) REFERENCES user_profiles (id);
+
+ALTER TABLE books_metadata
+    ADD CONSTRAINT uc_books_metadata_title UNIQUE (title);
+
+CREATE INDEX idx_google_user_name ON google_users (name);
+
+CREATE INDEX idx_title_author ON books_metadata (title, author);

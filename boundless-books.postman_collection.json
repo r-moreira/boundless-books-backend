@@ -75,11 +75,64 @@
 									"key": "category",
 									"value": "Fantasia",
 									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all paginated",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/books/paginated?page=0&size=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"paginated"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Harry Potter",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "J.K. Rowling",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "Fantasia",
+									"disabled": true
 								},
 								{
 									"key": "release-date",
 									"value": "2003/06/21",
 									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "2"
 								}
 							]
 						}
@@ -172,7 +225,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"test book updated\",\n    \"author\": \"test author\",\n    \"publisher\": \"test publisher\",\n    \"description\": \"test description\"\n}",
+							"raw": "{\n        \"title\": \"Harry Potter e a Ordem da Fênix\",\n        \"author\": \"J.K. Rowling\",\n        \"publisher\": \"Rocco\",\n        \"category\": \"Fantasia\",\n        \"synopsis\": \"Harry Potter retorna para seu quinto ano em Hogwarts e descobre que o Ministério da Magia está em negação sobre o retorno de Voldemort.\",\n        \"pages\": 704,\n        \"releaseDate\": \"2003/06/21\",\n        \"coverImageUrl\": \"https://ik.imagekit.io/boundlessbooks/cover-images/cover_avHr99l5G.jpg\",\n        \"epubUrl\": \"https://ik.imagekit.io/boundlessbooks/epubs/epub_RRU77Qqdh.epub\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -287,7 +340,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/search?include-books=false&name=Rodrigo",
+							"raw": "http://localhost:8080/api/v1/users/search",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -302,11 +355,62 @@
 							"query": [
 								{
 									"key": "include-books",
-									"value": "false"
+									"value": "false",
+									"disabled": true
 								},
 								{
 									"key": "name",
-									"value": "Rodrigo"
+									"value": "Rodrigo",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/search paginated",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/search/paginated?page=0&size=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"search",
+								"paginated"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "1"
+								},
+								{
+									"key": "include-books",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Rodrigo",
+									"disabled": true
 								}
 							]
 						}
@@ -562,6 +666,73 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login google",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/oauth2/authorization/google",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"oauth2",
+								"authorization",
+								"google"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "actuator",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/actuator",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
