@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: ${POSTGRES_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${POSTGRES_DATASOURCE_USERNAME:postgres}
+    password: ${POSTGRES_DATASOURCE_PASSWORD:postgres}
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 10
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true

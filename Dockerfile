@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-runtime-container:jdk-21-stream-musl as builder
+FROM bellsoft/liberica-runtime-container:jdk-21-stream-musl AS builder
 
 COPY . /app
 
@@ -6,7 +6,7 @@ WORKDIR /app
 
 RUN ./mvnw package
 
-FROM bellsoft/liberica-runtime-container:jdk-21-cds-slim-musl as optimizer
+FROM bellsoft/liberica-runtime-container:jdk-21-cds-slim-musl AS optimizer
 
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
