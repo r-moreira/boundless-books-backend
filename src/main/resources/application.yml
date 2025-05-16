@@ -1,6 +1,6 @@
 application:
   flags:
-    enable-api-key-validation: ${API_KEY_VALIDATION_ENABLED:false}
+    enable-api-key-validation: ${API_KEY_VALIDATION_ENABLED:true}
   api-key: ${API_KEY}
   oauth2:
     redirect-uri: http://localhost:5173
@@ -18,12 +18,15 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
   show-actuator: true
 
 spring:
   application:
     name: boundless-books
   profiles:
+#    active: ${SPRING_PROFILES_ACTIVE:postgresql}
     active: ${DATABASE_PLATFORM:h2}
   flyway:
     baseline-on-migrate: true

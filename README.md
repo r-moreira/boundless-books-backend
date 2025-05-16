@@ -4,8 +4,10 @@
 
 ### How to run the project with postgres database:
 ```sh
+# Build the app image
 docker-compose build
 
+# Run the app and postgresql containers
 docker-compose up
 ```
 
