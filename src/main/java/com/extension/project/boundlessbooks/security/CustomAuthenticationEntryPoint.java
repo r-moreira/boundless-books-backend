@@ -28,8 +28,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setCharacterEncoding("UTF-8");
 
         var errorBody = new HttpErrorBody(
-                authException.getMessage(),
-                "Unauthorized",
+                "Unauthorized access",
+                "Forbidden",
                 HttpServletResponse.SC_UNAUTHORIZED
         );
 
