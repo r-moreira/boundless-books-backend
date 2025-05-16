@@ -1,6 +1,6 @@
 package com.extension.project.boundlessbooks.service.impl;
 
-import com.extension.project.boundlessbooks.configuration.ApplicationProperties;
+import com.extension.project.boundlessbooks.configuration.properties.ApplicationProperties;
 import com.extension.project.boundlessbooks.mapper.GoogleUserMapper;
 import com.extension.project.boundlessbooks.model.entity.GoogleUser;
 import com.extension.project.boundlessbooks.model.entity.UserProfile;

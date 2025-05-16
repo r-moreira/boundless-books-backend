@@ -4,7 +4,6 @@ import com.extension.project.boundlessbooks.enums.BookCategory;
 import com.extension.project.boundlessbooks.model.entity.BookMetadata;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;

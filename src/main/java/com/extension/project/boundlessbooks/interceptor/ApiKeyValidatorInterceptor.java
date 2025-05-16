@@ -1,6 +1,6 @@
 package com.extension.project.boundlessbooks.interceptor;
 
-import com.extension.project.boundlessbooks.configuration.ApplicationProperties;
+import com.extension.project.boundlessbooks.configuration.properties.ApplicationProperties;
 import com.extension.project.boundlessbooks.exception.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

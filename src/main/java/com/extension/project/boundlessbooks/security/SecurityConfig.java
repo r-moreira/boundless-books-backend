@@ -1,6 +1,7 @@
 package com.extension.project.boundlessbooks.security;
 
-import com.extension.project.boundlessbooks.configuration.ApplicationProperties;
+import com.extension.project.boundlessbooks.configuration.properties.ApplicationProperties;
+import com.extension.project.boundlessbooks.configuration.properties.ServerCookieProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final ApplicationProperties properties;
+    private final ServerCookieProperties serverCookieProperties;
+    private final ApplicationProperties applicationProperties;
     private final AuthenticationSuccessHandler successHandler;
 
     @Bean
@@ -52,13 +54,13 @@ public class SecurityConfig {
                 ).permitAll()
                 .anyRequest().authenticated())
             .oauth2Login(oauth2LoginCustomizer -> oauth2LoginCustomizer
-                .loginPage("/oauth2/authorization/google") //TODO: Receber valor via property
+                .loginPage(applicationProperties.getOauth2().getLoginPath())
                 .successHandler(successHandler))
                 .logout(logoutCustomizer -> logoutCustomizer
-                .logoutUrl("/logout") //TODO: Receber valor via property
-                .logoutSuccessUrl(properties.getOauth2().getRedirectUri())
+                .logoutUrl(applicationProperties.getOauth2().getLogoutPath())
+                .logoutSuccessUrl(applicationProperties.getOauth2().getRedirectUri())
                 .invalidateHttpSession(true)
-                .deleteCookies("BOUNDLESS_BOOKS_SESSION") //TODO: Receber valor via property
+                .deleteCookies(serverCookieProperties.getName())
                 .permitAll())
              .exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
                      .authenticationEntryPoint(authenticationEntryPoint))

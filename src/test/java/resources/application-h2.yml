@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: ${H2_DATASOURCE_URL:jdbc:h2:mem:testdb}
+    username: ${H2_DATASOURCE_USERNAME:sa}
+    password: ${H2_DATASOURCE_PASSWORD:password}
+    driver-class-name: org.h2.Driver
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 10
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: validate

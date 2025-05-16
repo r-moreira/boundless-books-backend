@@ -1,10 +1,12 @@
-package com.extension.project.boundlessbooks.configuration;
+package com.extension.project.boundlessbooks.configuration.properties;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+@Validated
 @Data
 @ConfigurationProperties(prefix = "application")
 public class ApplicationProperties {
@@ -18,14 +20,20 @@ public class ApplicationProperties {
     private OAuth2 oauth2;
 
     @Data
-    @Validated
     public static class Flags {
         private boolean enableApiKeyValidation;
     }
 
     @Data
-    @Validated
     public static class OAuth2 {
+
+        @NotBlank
         private String redirectUri;
+
+        @NotBlank
+        private String loginPath;
+
+        @NotBlank
+        private String logoutPath;
     }
 }
