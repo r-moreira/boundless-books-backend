@@ -24,5 +24,5 @@ import org.springframework.context.annotation.Configuration;
                 paramName = "X-API-KEY"
         )
 })
-public class OpenApiConfig {
+public class OpenApiConfiguration {
 }

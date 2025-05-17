@@ -5,13 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MapperConfig {
+public class MapperConfiguration {
 
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
-
-
 
 }

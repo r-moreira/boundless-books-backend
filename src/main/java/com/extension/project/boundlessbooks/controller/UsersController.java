@@ -1,6 +1,7 @@
 package com.extension.project.boundlessbooks.controller;
 
 import com.extension.project.boundlessbooks.annotation.SessionCookieParameter;
+import com.extension.project.boundlessbooks.annotation.ValidateOidcUser;
 import com.extension.project.boundlessbooks.model.dto.UserProfileDto;
 import com.extension.project.boundlessbooks.service.UserProfilesService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -85,6 +86,7 @@ public class UsersController {
             @Parameter(name = "include-books", description = "Include books in the response", example = "true")
     })
     @SessionCookieParameter
+    @ValidateOidcUser
     public ResponseEntity<UserProfileDto> getCurrentUser(
             @AuthenticationPrincipal OidcUser oidcUser,
             @RequestParam(value = "include-books", defaultValue = "true") boolean includeBooks) {
@@ -105,6 +107,7 @@ public class UsersController {
     @Parameters({
             @Parameter(name = "bookId", description = "ID of the book to add", example = "42")
     })
+    @ValidateOidcUser
     public ResponseEntity<Void> addFavoriteBook(
             @AuthenticationPrincipal OidcUser oidcUser,
             @PathVariable Long bookId) {
@@ -124,6 +127,7 @@ public class UsersController {
     @Parameters({
             @Parameter(name = "bookId", description = "ID of the book to remove", example = "42")
     })
+    @ValidateOidcUser
     public ResponseEntity<Void> removeFavoriteBook(
             @AuthenticationPrincipal OidcUser oidcUser,
             @PathVariable Long bookId) {
@@ -143,6 +147,7 @@ public class UsersController {
     @Parameters({
             @Parameter(name = "bookId", description = "ID of the book to add", example = "42")
     })
+    @ValidateOidcUser
     public ResponseEntity<Void> addBookToShelf(
             @AuthenticationPrincipal OidcUser oidcUser,
             @PathVariable Long bookId) {
@@ -162,6 +167,7 @@ public class UsersController {
     @Parameters({
             @Parameter(name = "bookId", description = "ID of the book to remove", example = "42")
     })
+    @ValidateOidcUser
     public ResponseEntity<Void> removeBookFromShelf(
             @AuthenticationPrincipal OidcUser oidcUser,
             @PathVariable Long bookId) {

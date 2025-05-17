@@ -1,6 +1,7 @@
 package com.extension.project.boundlessbooks.configuration;
 
 import com.extension.project.boundlessbooks.configuration.properties.ApplicationProperties;
+import com.extension.project.boundlessbooks.configuration.properties.ServerCookieProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -11,4 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationConfiguration {
 
     ApplicationProperties applicationProperties;
+
+    ServerCookieProperties serverCookieProperties;
 }

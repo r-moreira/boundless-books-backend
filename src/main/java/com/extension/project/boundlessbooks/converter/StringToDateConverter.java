@@ -19,7 +19,7 @@ public class StringToDateConverter implements Converter<String, Date> {
             SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
             dateFormat.setLenient(false);
             return dateFormat.parse(source);
-        } catch (ParseException e) {
+        } catch (ParseException | NullPointerException e) {
             throw new IllegalArgumentException("Invalid date format. Expected format: " + DATE_PATTERN);
         }
     }
