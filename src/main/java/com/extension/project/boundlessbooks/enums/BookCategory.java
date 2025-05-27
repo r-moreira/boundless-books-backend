@@ -3,6 +3,7 @@ package com.extension.project.boundlessbooks.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.UtilityClass;
 
 @AllArgsConstructor
 @Getter
@@ -66,6 +67,7 @@ public enum BookCategory {
         throw new IllegalArgumentException("Invalid category name: " + displayName);
     }
 
+    @UtilityClass
     public static class MainCategory {
         public static final String RECOMENDADOS = "Recomendados";
         public static final String LITERATURA_E_FICCAO = "Literatura e Ficção";

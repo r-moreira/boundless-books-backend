@@ -49,16 +49,15 @@ public class BooksController {
             @Parameter(name = "category", description = "The category of the book", example = "Fantasia"),
             @Parameter(name = "release-date", description = "The release date of the book in yyyy/MM/dd format", example = "2003/06/20")
     })
-    public List<BookMetadataDto> getAllBooks(
+    public ResponseEntity<List<BookMetadataDto>> getAllBooks(
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "author", required = false) String author,
             @RequestParam(value = "category", required = false) BookCategory category,
             @DateTimeFormat(pattern = "yyyy/MM/dd") @Valid
-            @RequestParam(value = "release-date", required = false)
-            Date releaseDate) {
-        return booksService.getAllBooks(title, author, category, releaseDate);
+            @RequestParam(value = "release-date", required = false) Date releaseDate) {
+        List<BookMetadataDto> books = booksService.getAllBooks(title, author, category, releaseDate);
+        return ResponseEntity.ok().body(books);
     }
-
 
     @GetMapping("/paginated")
     @Operation(summary = "Returns all books metadata paginated")
@@ -73,7 +72,7 @@ public class BooksController {
             @Parameter(name = "page", description = "Page number to retrieve", example = "0"),
             @Parameter(name = "size", description = "Number of items per page", example = "10")
     })
-    public Page<BookMetadataDto> getAllBooksPaginated(
+    public ResponseEntity<Page<BookMetadataDto>> getAllBooksPaginated(
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "author", required = false) String author,
             @RequestParam(value = "category", required = false) BookCategory category,
@@ -82,7 +81,8 @@ public class BooksController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return booksService.getAllBooksPaginated(title, author, category, releaseDate, pageable);
+        Page<BookMetadataDto> books = booksService.getAllBooksPaginated(title, author, category, releaseDate, pageable);
+        return ResponseEntity.ok().body(books);
     }
 
     @GetMapping("/{id}")
@@ -97,7 +97,7 @@ public class BooksController {
     })
     public ResponseEntity<BookMetadataDto> getBookById(@PathVariable Long id) {
         BookMetadataDto book = booksService.getBookById(id);
-        return ResponseEntity.ok(book);
+        return ResponseEntity.ok().body(book);
     }
 
     @PostMapping
@@ -110,8 +110,9 @@ public class BooksController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {
             @Content(schema = @Schema(implementation = BookMetadataDto.class)),
     })
-    public BookMetadataDto createBook(@Valid @RequestBody BookMetadataDto bookMetadataDto) {
-        return booksService.createBook(bookMetadataDto);
+    public ResponseEntity<BookMetadataDto> createBook(@Valid @RequestBody BookMetadataDto bookMetadataDto) {
+        BookMetadataDto createdBook = booksService.createBook(bookMetadataDto);
+        return ResponseEntity.status(201).body(createdBook);
     }
 
     @PostMapping("/bulk")
@@ -124,8 +125,9 @@ public class BooksController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {
             @Content(array = @ArraySchema(schema = @Schema(implementation = BookMetadataDto.class))),
     })
-    public List<BookMetadataDto> createBooks(@Valid @RequestBody List<BookMetadataDto> bookMetadataDto) {
-        return booksService.createBooks(bookMetadataDto);
+    public ResponseEntity<List<BookMetadataDto>> createBooks(@Valid @RequestBody List<BookMetadataDto> bookMetadataDto) {
+        List<BookMetadataDto> createdBooks = booksService.createBooks(bookMetadataDto);
+        return ResponseEntity.status(201).body(createdBooks);
     }
 
     @PutMapping("/{id}")
@@ -145,7 +147,7 @@ public class BooksController {
             @PathVariable Long id,
             @Valid @RequestBody BookMetadataDto bookMetadataDto) {
         BookMetadataDto updatedBook = booksService.updateBook(id, bookMetadataDto);
-        return ResponseEntity.ok(updatedBook);
+        return ResponseEntity.ok().body(updatedBook);
     }
 
     @DeleteMapping("/{id}")

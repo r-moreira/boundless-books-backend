@@ -112,6 +112,15 @@ class UserProfilesServiceImplTest {
     }
 
     @Test
+    void addFavoriteBook_ThrowsNotFoundException_WhenUserDoNotExist() {
+        when(userProfileRepository.findByGoogleUserId("12345")).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () ->
+                userProfilesService.addFavoriteBook("12345", 1L)
+        );
+    }
+
+    @Test
     void removeFavoriteBook_RemovesBookFromFavorites() {
         UserProfile userProfile = UserProfileFactory.createUserProfileWithFavoriteBooks();
         when(userProfileRepository.findByGoogleUserId("12345")).thenReturn(Optional.of(userProfile));
@@ -120,6 +129,16 @@ class UserProfilesServiceImplTest {
 
         verify(userProfileRepository, times(1)).save(userProfile);
     }
+
+    @Test
+    void removeFavoriteBook_ThrowsNotFoundException_WhenUserDoNotExist() {
+        when(userProfileRepository.findByGoogleUserId("12345")).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () ->
+                userProfilesService.removeFavoriteBook("12345", 1L)
+        );
+    }
+
 
     @Test
     void addBookToShelf_AddsBookToShelf() {
@@ -134,6 +153,15 @@ class UserProfilesServiceImplTest {
     }
 
     @Test
+    void addBookToShelf_AddsBookToShelf_ThrowsNotFoundException_WhenUserDoNotExist() {
+        when(userProfileRepository.findByGoogleUserId("12345")).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () ->
+                userProfilesService.addBookToShelf("12345", 1L)
+        );
+    }
+
+    @Test
     void removeBookFromShelf_RemovesBookFromShelf() {
         UserProfile userProfile = UserProfileFactory.createUserProfileWithShelfBooks();
         when(userProfileRepository.findByGoogleUserId("12345")).thenReturn(Optional.of(userProfile));
@@ -141,6 +169,15 @@ class UserProfilesServiceImplTest {
         userProfilesService.removeBookFromShelf("12345", 1L);
 
         verify(userProfileRepository, times(1)).save(userProfile);
+    }
+
+    @Test
+    void removeBookFromShelf_RemovesBookFromShelf_ThrowsNotFoundException_WhenUserDoNotExist() {
+        when(userProfileRepository.findByGoogleUserId("12345")).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () ->
+                userProfilesService.removeBookFromShelf("12345", 1L)
+        );
     }
 
     @Test

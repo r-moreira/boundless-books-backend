@@ -13,6 +13,5 @@ public class FaviconController {
     @RequestMapping("favicon.ico")
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handleFavicon() {
-        // No content needed, just return 404
     }
 }

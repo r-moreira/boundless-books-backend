@@ -95,7 +95,6 @@ public class UsersController {
                 oidcUser.getAttributes().get("iss").toString(),
                 includeBooks
         );
-
         return ResponseEntity.ok().body(userProfileDto);
     }
 
@@ -107,6 +106,7 @@ public class UsersController {
     @Parameters({
             @Parameter(name = "bookId", description = "ID of the book to add", example = "42")
     })
+    @SessionCookieParameter
     @ValidateOidcUser
     public ResponseEntity<Void> addFavoriteBook(
             @AuthenticationPrincipal OidcUser oidcUser,
@@ -115,7 +115,6 @@ public class UsersController {
                 oidcUser.getAttributes().get("sub").toString(),
                 bookId
         );
-
         return ResponseEntity.noContent().build();
     }
 
@@ -127,6 +126,7 @@ public class UsersController {
     @Parameters({
             @Parameter(name = "bookId", description = "ID of the book to remove", example = "42")
     })
+    @SessionCookieParameter
     @ValidateOidcUser
     public ResponseEntity<Void> removeFavoriteBook(
             @AuthenticationPrincipal OidcUser oidcUser,
@@ -135,7 +135,6 @@ public class UsersController {
                 oidcUser.getAttributes().get("sub").toString(),
                 bookId
         );
-
         return ResponseEntity.noContent().build();
     }
 
@@ -147,6 +146,7 @@ public class UsersController {
     @Parameters({
             @Parameter(name = "bookId", description = "ID of the book to add", example = "42")
     })
+    @SessionCookieParameter
     @ValidateOidcUser
     public ResponseEntity<Void> addBookToShelf(
             @AuthenticationPrincipal OidcUser oidcUser,
@@ -155,7 +155,6 @@ public class UsersController {
                 oidcUser.getAttributes().get("sub").toString(),
                 bookId
         );
-
         return ResponseEntity.noContent().build();
     }
 
@@ -167,6 +166,7 @@ public class UsersController {
     @Parameters({
             @Parameter(name = "bookId", description = "ID of the book to remove", example = "42")
     })
+    @SessionCookieParameter
     @ValidateOidcUser
     public ResponseEntity<Void> removeBookFromShelf(
             @AuthenticationPrincipal OidcUser oidcUser,
@@ -175,7 +175,6 @@ public class UsersController {
                 oidcUser.getAttributes().get("sub").toString(),
                 bookId
         );
-
         return ResponseEntity.noContent().build();
     }
 }
