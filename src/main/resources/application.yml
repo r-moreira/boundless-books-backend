@@ -1,7 +1,7 @@
 application:
   flags:
     enable-api-key-validation: ${API_KEY_VALIDATION_ENABLED:true}
-  api-key: ${API_KEY}
+  api-key: ${API_KEY:123}
   oauth2:
     redirect-uri: http://localhost:5173
     login-path: /oauth2/authorization/google
