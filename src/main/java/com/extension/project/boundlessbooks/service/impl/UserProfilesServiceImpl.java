@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,9 +34,9 @@ public class UserProfilesServiceImpl implements UserProfilesService {
         log.info("Fetching all user profiles: includeBooks={}, name={}", includeBooks, name);
 
         return (name == null || name.isBlank()
-                        ? userProfileRepository.findAll()
-                        : userProfileRepository.findByNameContainingIgnoreCase(name)
-                )
+                ? userProfileRepository.findAll()
+                : userProfileRepository.findByNameContainingIgnoreCase(name)
+        )
                 .stream()
                 .map(includeBooks
                         ? UserProfileMapper.INSTANCE::toDto
@@ -47,9 +48,9 @@ public class UserProfilesServiceImpl implements UserProfilesService {
         log.info("Fetching paginated user profiles: includeBooks={}, name={}, pageable={}", includeBooks, name, pageable);
 
         Page<UserProfile> userProfilesPage = (name == null || name.isBlank()
-                        ? userProfileRepository.findAll(pageable)
-                        : userProfileRepository.findByNameContainingIgnoreCaseWithPagination(name, pageable)
-                );
+                ? userProfileRepository.findAll(pageable)
+                : userProfileRepository.findByNameContainingIgnoreCaseWithPagination(name, pageable)
+        );
 
         return userProfilesPage.map(includeBooks
                 ? UserProfileMapper.INSTANCE::toDto
@@ -131,5 +132,44 @@ public class UserProfilesServiceImpl implements UserProfilesService {
         userProfile.getShelfBooks().removeIf(book -> book.getId().equals(bookId));
 
         userProfileRepository.save(userProfile);
+    }
+
+    @Override
+    @Transactional
+    public List<BookMetadataDto> getRecommendedBooks(String userId, int limit) {
+        log.info("Fetching recommended books for user: {}", userId);
+
+        UserProfile userProfile = userProfileRepository.findByGoogleUserId(userId)
+                .orElseThrow(() -> new NotFoundException("User profile not found"));
+
+        List<BookMetadata> userBooks = userProfile.getFavoriteBooks();
+        userBooks.addAll(userProfile.getShelfBooks());
+
+        List<BookMetadata> allBooks = booksService.getAllBooks(null, null, null, null)
+                .stream()
+                .map(BooksMapper.INSTANCE::toEntity)
+                .filter(book -> userBooks.stream()
+                        .noneMatch(userBook -> userBook.getId().equals(book.getId())))
+                .toList();
+
+        return allBooks.stream()
+                .sorted((book1, book2) -> {
+                    int score1 = calculateSimilarityScore(userBooks, book1);
+                    int score2 = calculateSimilarityScore(userBooks, book2);
+                    return Integer.compare(score2, score1);
+                })
+                .limit(limit)
+                .map(BooksMapper.INSTANCE::toDto)
+                .toList();
+    }
+
+    private int calculateSimilarityScore(List<BookMetadata> userBooks, BookMetadata book) {
+        int score = 0;
+        for (BookMetadata userBook : userBooks) {
+            if (userBook.getCategory().equals(book.getCategory())) score += 3;
+            if (userBook.getAuthor().equalsIgnoreCase(book.getAuthor())) score += 2;
+            if (userBook.getPublisher().equalsIgnoreCase(book.getPublisher())) score += 1;
+        }
+        return score;
     }
 }
