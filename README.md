@@ -17,7 +17,7 @@ docker-compose up
 ### How to run the project h2 database:
 ```sh
 # Build the app image
-docker-compose build app --no-deps
+docker-compose build app
 
 # Run the app container
 docker-compose up app --no-deps

@@ -1,5 +1,6 @@
 package com.extension.project.boundlessbooks.service;
 
+import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
 import com.extension.project.boundlessbooks.model.dto.UserProfileDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,4 +25,5 @@ public interface UserProfilesService {
 
     void removeBookFromShelf(String id, Long bookId);
 
+    List<BookMetadataDto> getRecommendedBooks(String sub, int limit);
 }

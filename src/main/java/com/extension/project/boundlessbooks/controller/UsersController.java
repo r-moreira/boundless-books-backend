@@ -2,6 +2,7 @@ package com.extension.project.boundlessbooks.controller;
 
 import com.extension.project.boundlessbooks.annotation.SessionCookieParameter;
 import com.extension.project.boundlessbooks.annotation.ValidateOidcUser;
+import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
 import com.extension.project.boundlessbooks.model.dto.UserProfileDto;
 import com.extension.project.boundlessbooks.service.UserProfilesService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -176,5 +177,22 @@ public class UsersController {
                 bookId
         );
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/books/recommendations")
+    @Operation(summary = "Fetch recommended books for the user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Recommended books retrieved", content = {
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = BookMetadataDto.class)))
+            })
+    })
+    public ResponseEntity<List<BookMetadataDto>> getRecommendedBooks(
+            @AuthenticationPrincipal OidcUser oidcUser,
+            @RequestParam(value = "limit", defaultValue = "10") int limit) {
+        List<BookMetadataDto> recommendations = userProfilesService.getRecommendedBooks(
+                oidcUser.getAttributes().get("sub").toString(),
+                limit
+        );
+        return ResponseEntity.ok().body(recommendations);
     }
 }
