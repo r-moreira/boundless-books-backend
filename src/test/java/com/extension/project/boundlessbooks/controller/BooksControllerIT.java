@@ -4,7 +4,10 @@ import com.extension.project.boundlessbooks.configuration.properties.Application
 import com.extension.project.boundlessbooks.factory.RequestFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -324,4 +327,76 @@ class BooksControllerIT {
     }
 
 
+    @Order(value = 18)
+    @Test
+    void getBooksMetrics_ReturnsMetrics() throws Exception {
+        mockMvc.perform(get("/api/v1/books/metrics")
+                        .header(X_API_KEY, properties.getApiKey()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").isNotEmpty())
+                .andExpect(jsonPath("$[*].favoriteCount").isNotEmpty())
+                .andExpect(jsonPath("$[*].shelfCount").isNotEmpty())
+                .andExpect(jsonPath("$[*].book.title").isNotEmpty())
+                .andExpect(jsonPath("$[*].book.author").isNotEmpty());
+    }
+
+    @Order(value = 19)
+    @Test
+    void getBooksMetrics_FilterByCategory_ReturnsFilteredMetrics() throws Exception {
+        mockMvc.perform(get("/api/v1/books/metrics")
+                        .header(X_API_KEY, properties.getApiKey())
+                        .param("category", "Fantasia"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].book.category", Matchers.everyItem(Matchers.equalTo("Fantasia"))));
+    }
+
+    @Order(value = 20)
+    @Test
+    void getBooksMetrics_FilterByAuthor_ReturnsFilteredMetrics() throws Exception {
+        mockMvc.perform(get("/api/v1/books/metrics")
+                        .header(X_API_KEY, properties.getApiKey())
+                        .param("author", "J.K. Rowling"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].book.author", Matchers.everyItem(Matchers.equalTo("J.K. Rowling"))));
+    }
+
+    @Order(value = 21)
+    @Test
+    void getBooksMetricsPaginated_ReturnsPaginatedMetrics() throws Exception {
+        mockMvc.perform(get("/api/v1/books/metrics/paginated")
+                        .header(X_API_KEY, properties.getApiKey())
+                        .param("page", "0")
+                        .param("size", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(5))
+                .andExpect(jsonPath("$.content[*].favoriteCount").isNotEmpty())
+                .andExpect(jsonPath("$.content[*].shelfCount").isNotEmpty())
+                .andExpect(jsonPath("$.content[*].book.title").isNotEmpty())
+                .andExpect(jsonPath("$.content[*].book.author").isNotEmpty());
+    }
+
+    @Order(value = 22)
+    @Test
+    void getBooksMetricsPaginated_FilterByCategory_ReturnsFilteredPaginatedMetrics() throws Exception {
+        mockMvc.perform(get("/api/v1/books/metrics/paginated")
+                        .header(X_API_KEY, properties.getApiKey())
+                        .param("category", "Fantasia")
+                        .param("page", "0")
+                        .param("size", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[*].book.category", Matchers.everyItem(Matchers.equalTo("Fantasia"))));
+    }
+
+    @Order(value = 23)
+    @Test
+    void getBooksMetricsPaginated_FilterByAuthor_ReturnsFilteredPaginatedMetrics() throws Exception {
+        mockMvc.perform(get("/api/v1/books/metrics/paginated")
+                        .header(X_API_KEY, properties.getApiKey())
+                        .param("author", "J.K. Rowling")
+                        .param("page", "0")
+                        .param("size", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[*].book.author", Matchers.everyItem(Matchers.equalTo("J.K. Rowling"))));
+    }
 }

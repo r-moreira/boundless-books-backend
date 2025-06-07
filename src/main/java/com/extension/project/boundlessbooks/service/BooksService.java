@@ -2,6 +2,7 @@ package com.extension.project.boundlessbooks.service;
 
 import com.extension.project.boundlessbooks.enums.BookCategory;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
+import com.extension.project.boundlessbooks.model.dto.BooksMetrics;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,4 +26,8 @@ public interface BooksService {
     void deleteBook(Long id);
 
     void deleteAllBooks();
+
+    List<BooksMetrics> getBooksMetrics(BookCategory category, String author);
+
+    Page<BooksMetrics> getBooksMetricsPaginated(BookCategory category, String author, Pageable pageable);
 }

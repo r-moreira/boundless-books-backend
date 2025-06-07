@@ -2,8 +2,8 @@ package com.extension.project.boundlessbooks.factory;
 
 import com.extension.project.boundlessbooks.model.dto.GoogleUserDto;
 import com.extension.project.boundlessbooks.model.dto.UserProfileDto;
-import com.extension.project.boundlessbooks.model.entity.UserProfile;
 import com.extension.project.boundlessbooks.model.entity.GoogleUser;
+import com.extension.project.boundlessbooks.model.entity.UserProfile;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
