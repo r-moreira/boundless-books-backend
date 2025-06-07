@@ -2,6 +2,7 @@ package com.extension.project.boundlessbooks.controller;
 
 import com.extension.project.boundlessbooks.enums.BookCategory;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
+import com.extension.project.boundlessbooks.model.dto.BooksMetrics;
 import com.extension.project.boundlessbooks.service.BooksService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -171,5 +172,44 @@ public class BooksController {
     public ResponseEntity<Void> deleteBooks() {
         booksService.deleteAllBooks();
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/metrics")
+    @Operation(summary = "Returns books metrics")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Books metrics retrieved", content = {
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = BooksMetrics.class)))
+            })
+    })
+    @Parameters({
+            @Parameter(name = "category", description = "Filter by book category", example = "Fantasia"),
+            @Parameter(name = "author", description = "Filter by book author", example = "J.K. Rowling")
+    })
+    public ResponseEntity<List<BooksMetrics>> getBooksMetrics(
+            @RequestParam(value = "category", required = false) BookCategory category,
+            @RequestParam(value = "author", required = false) String author) {
+        List<BooksMetrics> metrics = booksService.getBooksMetrics(category, author);
+        return ResponseEntity.ok().body(metrics);
+    }
+
+    @GetMapping("/metrics/paginated")
+    @Operation(summary = "Returns paginated books metrics")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Paginated books metrics retrieved", useReturnTypeSchema = true)
+    })
+    @Parameters({
+            @Parameter(name = "category", description = "Filter by book category", example = "Fantasia"),
+            @Parameter(name = "author", description = "Filter by book author", example = "J.K. Rowling"),
+            @Parameter(name = "page", description = "Page number to retrieve", example = "0"),
+            @Parameter(name = "size", description = "Number of items per page", example = "10")
+    })
+    public ResponseEntity<Page<BooksMetrics>> getBooksMetricsPaginated(
+            @RequestParam(value = "category", required = false) BookCategory category,
+            @RequestParam(value = "author", required = false) String author,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BooksMetrics> metrics = booksService.getBooksMetricsPaginated(category, author, pageable);
+        return ResponseEntity.ok().body(metrics);
     }
 }

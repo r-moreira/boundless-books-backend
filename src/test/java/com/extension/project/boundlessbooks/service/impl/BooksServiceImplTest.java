@@ -5,6 +5,7 @@ import com.extension.project.boundlessbooks.exception.NotFoundException;
 import com.extension.project.boundlessbooks.factory.BookMetadataFactory;
 import com.extension.project.boundlessbooks.factory.UserProfileFactory;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
+import com.extension.project.boundlessbooks.model.dto.BooksMetrics;
 import com.extension.project.boundlessbooks.model.entity.BookMetadata;
 import com.extension.project.boundlessbooks.model.entity.UserProfile;
 import com.extension.project.boundlessbooks.repository.BooksRepository;
@@ -238,5 +239,60 @@ class BooksServiceImplTest {
         verify(booksRepository, times(1)).deleteAll();
     }
 
+    @Test
+    void getBooksMetrics_ReturnsMetrics() {
+        BookMetadata book = BookMetadataFactory.createBookMetadata();
+        when(booksRepository.findBooksMetrics(null, null))
+                .thenReturn(List.of(book));
+
+        List<BooksMetrics> result = booksService.getBooksMetrics(null, null);
+
+        assertEquals(1, result.size());
+        assertEquals(book.getTitle(), result.get(0).book().title());
+        verify(booksRepository, times(1)).findBooksMetrics(null, null);
+    }
+
+    @Test
+    void getBooksMetrics_WithFilters_ReturnsFilteredMetrics() {
+        BookMetadata book = BookMetadataFactory.createBookMetadata();
+        when(booksRepository.findBooksMetrics("Fantasia", "J.K. Rowling"))
+                .thenReturn(List.of(book));
+
+        List<BooksMetrics> result = booksService.getBooksMetrics(BookCategory.FANTASIA, "J.K. Rowling");
+
+        assertEquals(1, result.size());
+        assertEquals("Fantasia", result.get(0).book().category().getDisplayName());
+        assertEquals("J.K. Rowling", result.get(0).book().author());
+        verify(booksRepository, times(1)).findBooksMetrics("Fantasia", "J.K. Rowling");
+    }
+
+    @Test
+    void getBooksMetricsPaginated_ReturnsPaginatedMetrics() {
+        BookMetadata book = BookMetadataFactory.createBookMetadata();
+        Page<BookMetadata> page = new PageImpl<>(List.of(book));
+        when(booksRepository.findBooksMetricsPaginated(null, null, PageRequest.of(0, 10)))
+                .thenReturn(page);
+
+        Page<BooksMetrics> result = booksService.getBooksMetricsPaginated(null, null, PageRequest.of(0, 10));
+
+        assertEquals(1, result.getTotalElements());
+        assertEquals(book.getTitle(), result.getContent().getFirst().book().title());
+        verify(booksRepository, times(1)).findBooksMetricsPaginated(null, null, PageRequest.of(0, 10));
+    }
+
+    @Test
+    void getBooksMetricsPaginated_WithFilters_ReturnsFilteredPaginatedMetrics() {
+        BookMetadata book = BookMetadataFactory.createBookMetadata();
+        Page<BookMetadata> page = new PageImpl<>(List.of(book));
+        when(booksRepository.findBooksMetricsPaginated("Fantasia", "J.K. Rowling", PageRequest.of(0, 10)))
+                .thenReturn(page);
+
+        Page<BooksMetrics> result = booksService.getBooksMetricsPaginated(BookCategory.FANTASIA, "J.K. Rowling", PageRequest.of(0, 10));
+
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Fantasia", result.getContent().getFirst().book().category().getDisplayName());
+        assertEquals("J.K. Rowling", result.getContent().getFirst().book().author());
+        verify(booksRepository, times(1)).findBooksMetricsPaginated("Fantasia", "J.K. Rowling", PageRequest.of(0, 10));
+    }
 
 }

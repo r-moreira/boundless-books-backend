@@ -3,7 +3,6 @@ package com.extension.project.boundlessbooks.listener;
 import com.extension.project.boundlessbooks.configuration.properties.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.Environment;

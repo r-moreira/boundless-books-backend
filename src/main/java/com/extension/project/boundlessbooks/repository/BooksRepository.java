@@ -38,4 +38,22 @@ public interface BooksRepository extends JpaRepository<BookMetadata, Long> {
             @Param("releaseDate") Date releaseDate,
             Pageable pageable
     );
+
+    @Query("SELECT b FROM BookMetadata b " +
+            "WHERE (:category IS NULL OR b.category = CAST(:category AS STRING)) " +
+            "AND (:author IS NULL OR b.author LIKE CONCAT('%', CAST(:author AS STRING), '%'))")
+    List<BookMetadata> findBooksMetrics(
+            @Param("category") String category,
+            @Param("author") String author
+    );
+
+    @Query("SELECT b FROM BookMetadata b " +
+            "WHERE (:category IS NULL OR b.category = CAST(:category AS STRING)) " +
+            "AND (:author IS NULL OR b.author LIKE CONCAT('%', CAST(:author AS STRING), '%')) " +
+            "ORDER BY (SIZE(b.favoriteByUsers) + SIZE(b.shelfByUsers)) DESC")
+    Page<BookMetadata> findBooksMetricsPaginated(
+            @Param("category") String category,
+            @Param("author") String author,
+            Pageable pageable
+    );
 }
