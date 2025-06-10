@@ -124,4 +124,14 @@ class InteractionControllerIT {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.processId").isNotEmpty());
     }
+
+    @Order(6)
+    @Test
+    void createInteraction_InvalidType_ReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/api/v1/interactions/invalid/1")
+                        .header(X_API_KEY, properties.getApiKey())
+                        .with(authentication(SecurityContextHolder.getContext().getAuthentication()))
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
 }
