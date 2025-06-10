@@ -36,6 +36,13 @@ public class UserProfileFactory {
         return userProfile;
     }
 
+    public static UserProfile createUserProfileWithFavoriteShelfBooks() {
+        UserProfile userProfile = createUserProfile();
+        userProfile.setFavoriteBooks(new ArrayList<>(List.of(BookMetadataFactory.createBookMetadata())));
+        userProfile.setShelfBooks(new ArrayList<>(List.of(BookMetadataFactory.createBookMetadata())));
+        return userProfile;
+    }
+
     public static UserProfileDto createUserProfileDto() {
         return new UserProfileDto(
                 1L,

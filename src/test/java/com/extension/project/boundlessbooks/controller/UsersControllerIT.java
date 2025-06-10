@@ -326,4 +326,39 @@ class UsersControllerIT {
                         .with(csrf()))
                 .andExpect(status().isNoContent());
     }
+
+    @Order(14)
+    @Test
+    void getRecommendedBooks_ReturnsRecommendations() throws Exception {
+        mockMvc.perform(get("/api/v1/users/books/recommendations")
+                        .header(X_API_KEY, properties.getApiKey())
+                        .param("limit", "2")
+                        .with(authentication(SecurityContextHolder.getContext().getAuthentication()))
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(2))
+                .andExpect(jsonPath("$[*].title").isNotEmpty())
+                .andExpect(jsonPath("$[*].author").isNotEmpty())
+                .andExpect(jsonPath("$[*].publisher").isNotEmpty())
+                .andExpect(jsonPath("$[*].category").isNotEmpty())
+                .andExpect(jsonPath("$[*].synopsis").isNotEmpty())
+                .andExpect(jsonPath("$[*].pages").isNotEmpty())
+                .andExpect(jsonPath("$[*].releaseDate").isNotEmpty())
+                .andExpect(jsonPath("$[*].coverImageUrl").isNotEmpty())
+                .andExpect(jsonPath("$[*].epubUrl").isNotEmpty())
+                .andExpect(jsonPath("$[*].createdAt").isNotEmpty())
+                .andExpect(jsonPath("$[*].updatedAt").isNotEmpty());
+    }
+
+    @Order(15)
+    @Test
+    void getRecommendedBooks_ReturnsEmptyList_WhenNoRecommendations() throws Exception {
+        mockMvc.perform(get("/api/v1/users/books/recommendations")
+                        .header(X_API_KEY, properties.getApiKey())
+                        .param("limit", "0")
+                        .with(authentication(SecurityContextHolder.getContext().getAuthentication()))
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(0));
+    }
 }
