@@ -235,6 +235,7 @@
                                 <exclude>**/generated-sources/**</exclude>
                                 <exclude>com/extension/project/boundlessbooks/controller/OAuth2Controller*</exclude>
                                 <exclude>com/extension/project/boundlessbooks/configuration/OpenApiConfiguration*</exclude>
+                                <exclude>com/extension/project/boundlessbooks/cronjob/RandomInteractionEventSender.java</exclude>
                             </excludes>
                         </configuration>
                     </execution>
