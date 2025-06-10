@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
-public record BookMetricsDto(
+public record BookMetrics(
         @Schema(description = "The count of how many times the book was added to the users favorite list", example = "150")
         @NotNull
         Integer favoriteCount,

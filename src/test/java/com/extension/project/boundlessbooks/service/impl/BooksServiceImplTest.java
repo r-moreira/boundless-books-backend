@@ -5,7 +5,7 @@ import com.extension.project.boundlessbooks.exception.NotFoundException;
 import com.extension.project.boundlessbooks.factory.BookMetadataFactory;
 import com.extension.project.boundlessbooks.factory.UserProfileFactory;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
-import com.extension.project.boundlessbooks.model.dto.BooksMetrics;
+import com.extension.project.boundlessbooks.model.dto.BookMetrics;
 import com.extension.project.boundlessbooks.model.entity.BookMetadata;
 import com.extension.project.boundlessbooks.model.entity.UserProfile;
 import com.extension.project.boundlessbooks.repository.BooksRepository;
@@ -245,7 +245,7 @@ class BooksServiceImplTest {
         when(booksRepository.findBooksMetrics(null, null))
                 .thenReturn(List.of(book));
 
-        List<BooksMetrics> result = booksService.getBooksMetrics(null, null);
+        List<BookMetrics> result = booksService.getBooksMetrics(null, null);
 
         assertEquals(1, result.size());
         assertEquals(book.getTitle(), result.get(0).book().title());
@@ -258,7 +258,7 @@ class BooksServiceImplTest {
         when(booksRepository.findBooksMetrics("Fantasia", "J.K. Rowling"))
                 .thenReturn(List.of(book));
 
-        List<BooksMetrics> result = booksService.getBooksMetrics(BookCategory.FANTASIA, "J.K. Rowling");
+        List<BookMetrics> result = booksService.getBooksMetrics(BookCategory.FANTASIA, "J.K. Rowling");
 
         assertEquals(1, result.size());
         assertEquals("Fantasia", result.get(0).book().category().getDisplayName());
@@ -273,7 +273,7 @@ class BooksServiceImplTest {
         when(booksRepository.findBooksMetricsPaginated(null, null, PageRequest.of(0, 10)))
                 .thenReturn(page);
 
-        Page<BooksMetrics> result = booksService.getBooksMetricsPaginated(null, null, PageRequest.of(0, 10));
+        Page<BookMetrics> result = booksService.getBooksMetricsPaginated(null, null, PageRequest.of(0, 10));
 
         assertEquals(1, result.getTotalElements());
         assertEquals(book.getTitle(), result.getContent().getFirst().book().title());
@@ -287,7 +287,7 @@ class BooksServiceImplTest {
         when(booksRepository.findBooksMetricsPaginated("Fantasia", "J.K. Rowling", PageRequest.of(0, 10)))
                 .thenReturn(page);
 
-        Page<BooksMetrics> result = booksService.getBooksMetricsPaginated(BookCategory.FANTASIA, "J.K. Rowling", PageRequest.of(0, 10));
+        Page<BookMetrics> result = booksService.getBooksMetricsPaginated(BookCategory.FANTASIA, "J.K. Rowling", PageRequest.of(0, 10));
 
         assertEquals(1, result.getTotalElements());
         assertEquals("Fantasia", result.getContent().getFirst().book().category().getDisplayName());

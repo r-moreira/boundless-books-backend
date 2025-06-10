@@ -1,28 +1,32 @@
 services:
-  app:
-    container_name: boundless-books-app
+  bb_app:
+    container_name: bb_app
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
-      db:
-        condition: service_healthy
+      - bb_postgres
+      - bb_kafka
+    networks:
+      - backend
     environment:
-      - DATABASE_PLATFORM=${DATABASE_PLATFORM}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
       - H2_DATASOURCE_URL=${H2_DATASOURCE_URL}
       - H2_DATASOURCE_USERNAME=${H2_DATASOURCE_USERNAME}
       - H2_DATASOURCE_PASSWORD=${H2_DATASOURCE_PASSWORD}
       - POSTGRES_DATASOURCE_URL=${POSTGRES_DATASOURCE_URL}
       - POSTGRES_DATASOURCE_USERNAME=${POSTGRES_DATASOURCE_USERNAME}
       - POSTGRES_DATASOURCE_PASSWORD=${POSTGRES_DATASOURCE_PASSWORD}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
       - GOOGLE_OAUTH2_CLIENT_ID=${GOOGLE_OAUTH2_CLIENT_ID}
       - GOOGLE_OAUTH2_CLIENT_SECRET=${GOOGLE_OAUTH2_CLIENT_SECRET}
       - API_KEY=${API_KEY}
       - API_KEY_VALIDATION_ENABLED=${API_KEY_VALIDATION_ENABLED}
-  db:
-    container_name: postgres
+
+  bb_postgres:
+    container_name: bb_postgres
     image: postgres:17.4
     environment:
       - POSTGRES_DB=postgres
@@ -35,8 +39,59 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - backend
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  bb_zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: bb_zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - backend
+
+  bb_kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: bb_kafka
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: bb_zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://bb_kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - backend
+    depends_on:
+      - bb_zookeeper
+
+  bb_kafka_ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: bb_kafka_ui
+    ports:
+      - "5555:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: cluster-local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: bb_kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: bb_zookeeper:2181
+    networks:
+      - backend
+    depends_on:
+      - bb_kafka
+
+
 volumes:
   postgres_data:
+networks:
+  backend:
+    driver: bridge
