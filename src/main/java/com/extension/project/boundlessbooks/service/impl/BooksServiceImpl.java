@@ -4,7 +4,7 @@ import com.extension.project.boundlessbooks.enums.BookCategory;
 import com.extension.project.boundlessbooks.exception.NotFoundException;
 import com.extension.project.boundlessbooks.mapper.BooksMapper;
 import com.extension.project.boundlessbooks.model.dto.BookMetadataDto;
-import com.extension.project.boundlessbooks.model.dto.BooksMetrics;
+import com.extension.project.boundlessbooks.model.dto.BookMetrics;
 import com.extension.project.boundlessbooks.model.entity.BookMetadata;
 import com.extension.project.boundlessbooks.repository.BooksRepository;
 import com.extension.project.boundlessbooks.repository.UserProfileRepository;
@@ -137,14 +137,14 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
-    public List<BooksMetrics> getBooksMetrics(BookCategory category, String author) {
+    public List<BookMetrics> getBooksMetrics(BookCategory category, String author) {
         var categoryName = category == null ? null : category.getDisplayName();
 
         log.info("Fetching books metrics: category={}, author={}", categoryName, author);
 
         return booksRepository.findBooksMetrics(categoryName, author)
                 .stream()
-                .map(book -> new BooksMetrics(
+                .map(book -> new BookMetrics(
                         book.getFavoriteByUsers().size(),
                         book.getShelfByUsers().size(),
                         BooksMapper.INSTANCE.toDto(book)
@@ -157,13 +157,13 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
-    public Page<BooksMetrics> getBooksMetricsPaginated(BookCategory category, String author, Pageable pageable) {
+    public Page<BookMetrics> getBooksMetricsPaginated(BookCategory category, String author, Pageable pageable) {
         var categoryName = category == null ? null : category.getDisplayName();
 
         log.info("Fetching paginated books metrics: category={}, author={}, pageable={}", categoryName, author, pageable);
 
         return booksRepository.findBooksMetricsPaginated(categoryName, author, pageable)
-                .map(book -> new BooksMetrics(
+                .map(book -> new BookMetrics(
                         book.getFavoriteByUsers().size(),
                         book.getShelfByUsers().size(),
                         BooksMapper.INSTANCE.toDto(book)

@@ -7,14 +7,14 @@
 # Build the app image
 docker-compose build
 
-# Run the app and postgresql containers
+# Run the app, postgresql and kafka containers
 docker-compose up
 ```
 
 #### .env file
 ```DATABASE_PLATFORM=postgresql```
 
-### How to run the project h2 database:
+### How to run the project h2 database and no kafka:
 ```sh
 # Build the app image
 docker-compose build app

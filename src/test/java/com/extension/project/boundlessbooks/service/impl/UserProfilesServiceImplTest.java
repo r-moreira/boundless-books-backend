@@ -293,4 +293,42 @@ class UserProfilesServiceImplTest {
         assertEquals("Invalid Issuer: " + invalidIssuer, exception.getMessage());
         verify(userProfileRepository, never()).findByGoogleUserId(anyString());
     }
+
+    @Test
+    void getRecommendedBooks_ReturnsRecommendedBooks() {
+        UserProfile userProfile = UserProfileFactory.createUserProfileWithFavoriteShelfBooks();
+        when(userProfileRepository.findByGoogleUserId("12345")).thenReturn(Optional.of(userProfile));
+
+        List<BookMetadataDto> allBooks = BookMetadataFactory.createBookMetadataDtoList();
+        when(booksService.getAllBooks(null, null, null, null)).thenReturn(allBooks);
+
+        List<BookMetadataDto> result = userProfilesService.getRecommendedBooks("12345", 2);
+
+        assertEquals(2, result.size());
+        verify(userProfileRepository, times(1)).findByGoogleUserId("12345");
+        verify(booksService, times(1)).getAllBooks(null, null, null, null);
+    }
+
+    @Test
+    void getRecommendedBooks_ThrowsNotFoundException_WhenUserDoesNotExist() {
+        when(userProfileRepository.findByGoogleUserId("12345")).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> userProfilesService.getRecommendedBooks("12345", 2));
+        verify(userProfileRepository, times(1)).findByGoogleUserId("12345");
+        verify(booksService, never()).getAllBooks(any(), any(), any(), any());
+    }
+
+    @Test
+    void getRecommendedBooks_ReturnsEmptyList_WhenNoBooksAvailable() {
+        UserProfile userProfile = UserProfileFactory.createUserProfileWithFavoriteShelfBooks();
+        when(userProfileRepository.findByGoogleUserId("12345")).thenReturn(Optional.of(userProfile));
+
+        when(booksService.getAllBooks(null, null, null, null)).thenReturn(List.of());
+
+        List<BookMetadataDto> result = userProfilesService.getRecommendedBooks("12345", 2);
+
+        assertTrue(result.isEmpty());
+        verify(userProfileRepository, times(1)).findByGoogleUserId("12345");
+        verify(booksService, times(1)).getAllBooks(null, null, null, null);
+    }
 }

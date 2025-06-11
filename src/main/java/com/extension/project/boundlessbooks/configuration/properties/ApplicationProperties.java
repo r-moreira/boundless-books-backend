@@ -19,9 +19,13 @@ public class ApplicationProperties {
     @Valid
     private OAuth2 oauth2;
 
+    @Valid
+    private Kafka kafka;
+
     @Data
     public static class Flags {
         private boolean enableApiKeyValidation;
+        private boolean enableMockInteractionsEvent;
     }
 
     @Data
@@ -35,5 +39,22 @@ public class ApplicationProperties {
 
         @NotBlank
         private String logoutPath;
+    }
+
+    @Data
+    public static class Kafka {
+
+        @NotBlank
+        private String topicName;
+
+        private String enabled;
+
+        @Valid
+        private MockInteractions mockInteractions;
+
+        @Data
+        public static class MockInteractions {
+            private boolean enabled;
+        }
     }
 }
