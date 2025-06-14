@@ -8,6 +8,7 @@ notebook/epubs-dataset/
 
 .env
 
+
 todo.md
 
 ### STS ###
@@ -40,3 +41,14 @@ build/
 
 boundless-books-service-account.json
 .DS_Store
+
+.venv
+.idea/
+__pycache__/
+elastic_data/
+epubs/
+jupyter_work/
+minio_data/
+postgres_data/
+pyspark_drivers/
+butina_clusters.pkl
