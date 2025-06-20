@@ -1,0 +1,2337 @@
+openapi: 3.1.0
+info:
+  title: Boundless Books Backend
+  version: 0.0.1-SNAPSHOT
+servers:
+  - url: http://localhost:8080
+    description: Local server
+tags:
+  - name: OAuth2 Authentication
+    description: Operations related to OAuth2 authentication
+  - name: User Profiles Management
+    description: Operations related to user profiles
+  - name: Actuator
+    description: Monitor and interact
+    externalDocs:
+      description: Spring Boot Actuator Web API Documentation
+      url: https://docs.spring.io/spring-boot/docs/current/actuator-api/html/
+  - name: Interactions
+    description: Operations related to user interactions with books
+  - name: Books Metadata Management
+    description: Operations related to books metadata
+paths:
+  /api/v1/books/{id}:
+    get:
+      tags:
+        - Books Metadata Management
+      summary: Returns a book metadata by id
+      operationId: getBookById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the book
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 42
+      responses:
+        '200':
+          description: Book Metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookMetadataDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+    put:
+      tags:
+        - Books Metadata Management
+      summary: Updates a book metadata by id
+      operationId: updateBook
+      parameters:
+        - name: id
+          in: path
+          description: The id of the book
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 42
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookMetadataDto'
+        required: true
+      responses:
+        '200':
+          description: Book Metadata Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookMetadataDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+    delete:
+      tags:
+        - Books Metadata Management
+      summary: Deletes a book metadata by id
+      operationId: deleteBook
+      parameters:
+        - name: id
+          in: path
+          description: The id of the book
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 42
+      responses:
+        '204':
+          description: Book Metadata Deleted
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/users/books/shelf/{bookId}:
+    post:
+      tags:
+        - User Profiles Management
+      summary: Adds a book to the user's shelf
+      operationId: addBookToShelf
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of the book to add
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 42
+        - name: BOUNDLESS_BOOKS_SESSION
+          in: cookie
+          description: Session cookie
+          required: true
+          schema:
+            type: string
+            example: MGY3OGUz
+          example: MGY3OGUz
+      responses:
+        '204':
+          description: Book added to shelf
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+    delete:
+      tags:
+        - User Profiles Management
+      summary: Removes a book from the user's shelf
+      operationId: removeBookFromShelf
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of the book to remove
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 42
+        - name: BOUNDLESS_BOOKS_SESSION
+          in: cookie
+          description: Session cookie
+          required: true
+          schema:
+            type: string
+            example: MGY3OGUz
+          example: MGY3OGUz
+      responses:
+        '204':
+          description: Book removed from shelf
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/users/books/favorite/{bookId}:
+    post:
+      tags:
+        - User Profiles Management
+      summary: Adds a book to the user's favorites
+      operationId: addFavoriteBook
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of the book to add
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 42
+        - name: BOUNDLESS_BOOKS_SESSION
+          in: cookie
+          description: Session cookie
+          required: true
+          schema:
+            type: string
+            example: MGY3OGUz
+          example: MGY3OGUz
+      responses:
+        '204':
+          description: Book added to favorites
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+    delete:
+      tags:
+        - User Profiles Management
+      summary: Removes a book from the user's favorites
+      operationId: removeFavoriteBook
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of the book to remove
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 42
+        - name: BOUNDLESS_BOOKS_SESSION
+          in: cookie
+          description: Session cookie
+          required: true
+          schema:
+            type: string
+            example: MGY3OGUz
+          example: MGY3OGUz
+      responses:
+        '204':
+          description: Book removed from favorites
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/interactions/{interactionType}/{bookId}:
+    post:
+      tags:
+        - Interactions
+      summary: Processes a user interaction with a book
+      operationId: processInteraction
+      parameters:
+        - name: bookId
+          in: path
+          description: ID of the book to interact with
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 42
+        - name: interactionType
+          in: path
+          description: Type of interaction (e.g., LIKE, DISLIKE)
+          required: true
+          schema:
+            type: string
+            enum:
+              - read_start
+              - read_end
+              - favorite_add
+              - favorite_remove
+              - shelf_add
+              - shelf_remove
+          example: LIKE
+        - name: BOUNDLESS_BOOKS_SESSION
+          in: cookie
+          description: Session cookie
+          required: true
+          schema:
+            type: string
+            example: MGY3OGUz
+          example: MGY3OGUz
+      responses:
+        '200':
+          description: Interaction processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InteractionResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/books:
+    get:
+      tags:
+        - Books Metadata Management
+      summary: Returns all books metadata
+      operationId: getAllBooks
+      parameters:
+        - name: title
+          in: query
+          description: The title of the book
+          required: false
+          schema:
+            type: string
+          example: Harry Potter e a Ordem da Fênix
+        - name: author
+          in: query
+          description: The author of the book
+          required: false
+          schema:
+            type: string
+          example: J.K. Rowling
+        - name: category
+          in: query
+          description: The category of the book
+          required: false
+          schema:
+            type: string
+            enum:
+              - Recomendados para você
+              - Romance
+              - Aventura
+              - Biografias e Memórias
+              - Ficção
+              - Fantasia
+              - Ficção Fantástica
+              - Ficção Científica
+              - Contos e Crônicas
+              - Infanto e Juvenil
+              - Policial
+              - Humor
+              - Poemas e Poesia
+              - Suspense e Terror
+              - Artes e Música
+              - Administração e Economia
+              - Direito
+              - Política
+              - Filosofia
+              - Didáticos
+              - Concurso Público
+              - Informática
+              - História
+              - Gastronomia
+              - Humanas e Sociais
+              - Psicologia
+              - Nutrição e Dietas
+              - Ciências
+              - Saúde, Medicina
+              - Autoajuda
+              - Esportes e Jogos
+              - Espiritualidade
+              - Turismo e Guias de Viagem
+          example: Fantasia
+        - name: release-date
+          in: query
+          description: The release date of the book in yyyy/MM/dd format
+          required: false
+          schema:
+            type: string
+            format: date-time
+          example: 2003/06/20
+      responses:
+        '200':
+          description: Books Metadata List
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookMetadataDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+    post:
+      tags:
+        - Books Metadata Management
+      summary: Creates a new book metadata
+      operationId: createBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookMetadataDto'
+        required: true
+      responses:
+        '201':
+          description: Book Metadata Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookMetadataDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/books/bulk:
+    post:
+      tags:
+        - Books Metadata Management
+      summary: Creates multiple new book metadata
+      operationId: createBooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/BookMetadataDto'
+        required: true
+      responses:
+        '201':
+          description: Books Metadata Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookMetadataDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+    delete:
+      tags:
+        - Books Metadata Management
+      summary: Deletes all book metadata
+      operationId: deleteBooks
+      responses:
+        '204':
+          description: All Books Metadata Deleted
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /oauth2/authorization/google:
+    get:
+      tags:
+        - OAuth2 Authentication
+      summary: Redirects to Google OAuth2 login
+      operationId: googleLogin
+      responses:
+        '302':
+          description: Redirect to Google OAuth2 login page
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+  /logout:
+    get:
+      tags:
+        - OAuth2 Authentication
+      summary: Logs out the current user
+      operationId: logout
+      responses:
+        '302':
+          description: Redirect to logout endpoint
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+  /api/v1/users/search:
+    get:
+      tags:
+        - User Profiles Management
+      summary: Searches for user profiles
+      operationId: getAllUsers
+      parameters:
+        - name: include-books
+          in: query
+          description: Include books favorite books and shelf books in the response
+          required: false
+          schema:
+            type: boolean
+            default: false
+          example: true
+        - name: name
+          in: query
+          description: Filter by user name
+          required: false
+          schema:
+            type: string
+          example: John Doe
+      responses:
+        '200':
+          description: User profiles retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserProfileDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/users/search/paginated:
+    get:
+      tags:
+        - User Profiles Management
+      summary: Searches for user profiles with pagination
+      operationId: getAllUsers_1
+      parameters:
+        - name: include-books
+          in: query
+          description: Include books favorite books and shelf books in the response
+          required: false
+          schema:
+            type: boolean
+            default: false
+          example: true
+        - name: name
+          in: query
+          description: Filter by user name
+          required: false
+          schema:
+            type: string
+          example: John Doe
+        - name: page
+          in: query
+          description: Page number to retrieve
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+          example: 0
+        - name: size
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+          example: 10
+      responses:
+        '200':
+          description: Paginated user profiles retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageUserProfileDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/users/me:
+    get:
+      tags:
+        - User Profiles Management
+      summary: Retrieves the current user's profile
+      operationId: getCurrentUser
+      parameters:
+        - name: include-books
+          in: query
+          description: Include books in the response
+          required: false
+          schema:
+            type: boolean
+            default: true
+          example: true
+        - name: BOUNDLESS_BOOKS_SESSION
+          in: cookie
+          description: Session cookie
+          required: true
+          schema:
+            type: string
+            example: MGY3OGUz
+          example: MGY3OGUz
+      responses:
+        '200':
+          description: User profile retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/users/books/recommendations:
+    get:
+      tags:
+        - User Profiles Management
+      summary: Fetch recommended books for the user
+      operationId: getRecommendedBooks
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          description: Recommended books retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookMetadataDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/books/paginated:
+    get:
+      tags:
+        - Books Metadata Management
+      summary: Returns all books metadata paginated
+      operationId: getAllBooksPaginated
+      parameters:
+        - name: title
+          in: query
+          description: The title of the book
+          required: false
+          schema:
+            type: string
+          example: Harry Potter e a Ordem da Fênix
+        - name: author
+          in: query
+          description: The author of the book
+          required: false
+          schema:
+            type: string
+          example: J.K. Rowling
+        - name: category
+          in: query
+          description: The category of the book
+          required: false
+          schema:
+            type: string
+            enum:
+              - Recomendados para você
+              - Romance
+              - Aventura
+              - Biografias e Memórias
+              - Ficção
+              - Fantasia
+              - Ficção Fantástica
+              - Ficção Científica
+              - Contos e Crônicas
+              - Infanto e Juvenil
+              - Policial
+              - Humor
+              - Poemas e Poesia
+              - Suspense e Terror
+              - Artes e Música
+              - Administração e Economia
+              - Direito
+              - Política
+              - Filosofia
+              - Didáticos
+              - Concurso Público
+              - Informática
+              - História
+              - Gastronomia
+              - Humanas e Sociais
+              - Psicologia
+              - Nutrição e Dietas
+              - Ciências
+              - Saúde, Medicina
+              - Autoajuda
+              - Esportes e Jogos
+              - Espiritualidade
+              - Turismo e Guias de Viagem
+          example: Fantasia
+        - name: release-date
+          in: query
+          description: The release date of the book in yyyy/MM/dd format
+          required: false
+          schema:
+            type: string
+            format: date-time
+          example: 2003/06/20
+        - name: page
+          in: query
+          description: Page number to retrieve
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+          example: 0
+        - name: size
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+          example: 10
+      responses:
+        '200':
+          description: Books Metadata Paged
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageBookMetadataDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/books/metrics:
+    get:
+      tags:
+        - Books Metadata Management
+      summary: Returns books metrics
+      operationId: getBooksMetrics
+      parameters:
+        - name: category
+          in: query
+          description: Filter by book category
+          required: false
+          schema:
+            type: string
+            enum:
+              - Recomendados para você
+              - Romance
+              - Aventura
+              - Biografias e Memórias
+              - Ficção
+              - Fantasia
+              - Ficção Fantástica
+              - Ficção Científica
+              - Contos e Crônicas
+              - Infanto e Juvenil
+              - Policial
+              - Humor
+              - Poemas e Poesia
+              - Suspense e Terror
+              - Artes e Música
+              - Administração e Economia
+              - Direito
+              - Política
+              - Filosofia
+              - Didáticos
+              - Concurso Público
+              - Informática
+              - História
+              - Gastronomia
+              - Humanas e Sociais
+              - Psicologia
+              - Nutrição e Dietas
+              - Ciências
+              - Saúde, Medicina
+              - Autoajuda
+              - Esportes e Jogos
+              - Espiritualidade
+              - Turismo e Guias de Viagem
+          example: Fantasia
+        - name: author
+          in: query
+          description: Filter by book author
+          required: false
+          schema:
+            type: string
+          example: J.K. Rowling
+      responses:
+        '200':
+          description: Books metrics retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookMetrics'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /api/v1/books/metrics/paginated:
+    get:
+      tags:
+        - Books Metadata Management
+      summary: Returns paginated books metrics
+      operationId: getBooksMetricsPaginated
+      parameters:
+        - name: category
+          in: query
+          description: Filter by book category
+          required: false
+          schema:
+            type: string
+            enum:
+              - Recomendados para você
+              - Romance
+              - Aventura
+              - Biografias e Memórias
+              - Ficção
+              - Fantasia
+              - Ficção Fantástica
+              - Ficção Científica
+              - Contos e Crônicas
+              - Infanto e Juvenil
+              - Policial
+              - Humor
+              - Poemas e Poesia
+              - Suspense e Terror
+              - Artes e Música
+              - Administração e Economia
+              - Direito
+              - Política
+              - Filosofia
+              - Didáticos
+              - Concurso Público
+              - Informática
+              - História
+              - Gastronomia
+              - Humanas e Sociais
+              - Psicologia
+              - Nutrição e Dietas
+              - Ciências
+              - Saúde, Medicina
+              - Autoajuda
+              - Esportes e Jogos
+              - Espiritualidade
+              - Turismo e Guias de Viagem
+          example: Fantasia
+        - name: author
+          in: query
+          description: Filter by book author
+          required: false
+          schema:
+            type: string
+          example: J.K. Rowling
+        - name: page
+          in: query
+          description: Page number to retrieve
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+          example: 0
+        - name: size
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+          example: 10
+      responses:
+        '200':
+          description: Paginated books metrics retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageBookMetrics'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+      security:
+        - Application Key: []
+  /actuator:
+    get:
+      tags:
+        - Actuator
+      summary: Actuator root web endpoint
+      operationId: links
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    $ref: '#/components/schemas/Link'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+  /actuator/health:
+    get:
+      tags:
+        - Actuator
+      summary: Actuator web endpoint 'health'
+      operationId: health
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+            application/vnd.spring-boot.actuator.v2+json:
+              schema:
+                type: object
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Invalid input provided
+                error: Bad Request
+                status: 400
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Unauthorized access
+                error: Forbidden
+                status: 401
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Resource not found
+                error: Not Found
+                status: 404
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: An unexpected error occurred
+                error: Internal Server Error
+                status: 500
+        '501':
+          description: Not Implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorBody'
+              example:
+                message: Feature not implemented
+                error: Not Implemented
+                status: 501
+components:
+  schemas:
+    HttpErrorBody:
+      type: object
+      description: Represents the structure of an HTTP error response
+      properties:
+        message:
+          type: string
+          description: Detailed error message
+          example: Resource not found
+        error:
+          type: string
+          description: Error type or code
+          example: NOT_FOUND
+          minLength: 1
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code
+          example: 404
+      required:
+        - error
+        - status
+    BookMetadataDto:
+      type: object
+      description: The book metadata
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: The book id
+          example: 42
+          readOnly: true
+        title:
+          type: string
+          description: The book title
+          example: Harry Potter e a Ordem da Fênix
+          minLength: 1
+        author:
+          type: string
+          description: The book author
+          example: J.K. Rowling
+          minLength: 1
+        publisher:
+          type: string
+          description: The book publisher
+          example: Rocco
+          minLength: 1
+        category:
+          type: string
+          description: The book category
+          enum:
+            - Recomendados para você
+            - Romance
+            - Aventura
+            - Biografias e Memórias
+            - Ficção
+            - Fantasia
+            - Ficção Fantástica
+            - Ficção Científica
+            - Contos e Crônicas
+            - Infanto e Juvenil
+            - Policial
+            - Humor
+            - Poemas e Poesia
+            - Suspense e Terror
+            - Artes e Música
+            - Administração e Economia
+            - Direito
+            - Política
+            - Filosofia
+            - Didáticos
+            - Concurso Público
+            - Informática
+            - História
+            - Gastronomia
+            - Humanas e Sociais
+            - Psicologia
+            - Nutrição e Dietas
+            - Ciências
+            - Saúde, Medicina
+            - Autoajuda
+            - Esportes e Jogos
+            - Espiritualidade
+            - Turismo e Guias de Viagem
+          example: Fantasia
+        synopsis:
+          type: string
+          description: The book synopsis
+          example: >-
+            Harry Potter retorna para seu quinto ano em Hogwarts e descobre que
+            o Ministério da Magia está em negação sobre o retorno de Voldemort.
+          minLength: 1
+        pages:
+          type: integer
+          format: int32
+          description: The number of pages in the book
+          example: 704
+        releaseDate:
+          type: string
+          format: date-time
+          description: The book release date, must follow the pattern yyyy/MM/dd
+          example: 2003/06/20
+        coverImageUrl:
+          type: string
+          description: The book cover image url
+          example: >-
+            https://ik.imagekit.io/boundlessbooks/cover-images/cover_avHr99l5G.jpg
+          minLength: 1
+        epubUrl:
+          type: string
+          description: The book .epub url
+          example: https://ik.imagekit.io/boundlessbooks/epubs/epub_RRU77Qqdh.epub
+          minLength: 1
+        createdAt:
+          type: string
+          description: The date of book metadata creation in ISO UTC-8601 format
+          example: '2025-05-02T23:20:13.18641'
+          readOnly: true
+        updatedAt:
+          type: string
+          description: The date of book metadata update in ISO UTC-8601 format
+          example: '2025-05-07T22:55:03.095056'
+          readOnly: true
+      required:
+        - author
+        - category
+        - coverImageUrl
+        - epubUrl
+        - pages
+        - publisher
+        - synopsis
+        - title
+    InteractionResponse:
+      type: object
+      description: Represents the response for an interaction event
+      properties:
+        processId:
+          type: string
+          description: Unique identifier for the process
+          example: 45a2932d-8709-4e10-ba94-6e5c7a18b6f3
+          minLength: 1
+      required:
+        - processId
+    GoogleUserDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The Google user ID
+          example: 1234567890
+          readOnly: true
+        email:
+          type: string
+          description: The Google user email
+          example: user@example.com
+        name:
+          type: string
+          description: The Google user name
+          example: John Doe
+        createdAt:
+          type: string
+          description: The date of Google user creation in ISO UTC-8601 format
+          example: '2025-05-02T23:20:13.18641'
+        updatedAt:
+          type: string
+          description: The date of Google user update in ISO UTC-8601 format
+          example: '2025-05-07T22:55:03.095056'
+    UserProfileDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        favoriteBooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookMetadataDto'
+        shelfBooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookMetadataDto'
+        googleUser:
+          $ref: '#/components/schemas/GoogleUserDto'
+        createdAt:
+          type: string
+          description: The date of user profile creation in ISO UTC-8601 format
+          example: '2025-05-02T23:20:13.18641'
+        updatedAt:
+          type: string
+          description: The date of user profile update in ISO UTC-8601 format
+          example: '2025-05-07T22:55:03.095056'
+    PageUserProfileDto:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        first:
+          type: boolean
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileDto'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        unsorted:
+          type: boolean
+        sorted:
+          type: boolean
+    PageBookMetadataDto:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        first:
+          type: boolean
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookMetadataDto'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    BookMetrics:
+      type: object
+      properties:
+        favoriteCount:
+          type: integer
+          format: int32
+          description: >-
+            The count of how many times the book was added to the users favorite
+            list
+          example: 150
+        shelfCount:
+          type: integer
+          format: int32
+          description: The count of how many times the book was added to the users shelf
+          example: 300
+        book:
+          $ref: '#/components/schemas/BookMetadataDto'
+          description: The book metadata
+      required:
+        - book
+        - favoriteCount
+        - shelfCount
+    PageBookMetrics:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        first:
+          type: boolean
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/BookMetrics'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        templated:
+          type: boolean
+  securitySchemes:
+    Application Key:
+      type: apiKey
+      name: X-API-KEY
+      in: header
