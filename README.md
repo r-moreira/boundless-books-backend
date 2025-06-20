@@ -2,7 +2,7 @@
 This is a Java spring boot app and .EPUBs processing pipeline with pySpark to support the Boundless Book Frontend 
 
 ## Backend Architecture
-![arch](images/00_arq.png)
+![arch](images/00_arq_att.png)
 
 ## Run with Docker
 
