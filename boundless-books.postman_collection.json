@@ -75,6 +75,11 @@
 									"key": "category",
 									"value": "Fantasia",
 									"disabled": true
+								},
+								{
+									"key": "release-date",
+									"value": "2023/06/20",
+									"disabled": true
 								}
 							]
 						}
@@ -123,8 +128,93 @@
 								},
 								{
 									"key": "release-date",
-									"value": "2003/06/21",
+									"value": "2023/06/20",
 									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get metrics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/books/metrics?author=J.K. Rowling&category=Fantasia",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"metrics"
+							],
+							"query": [
+								{
+									"key": "author",
+									"value": "J.K. Rowling"
+								},
+								{
+									"key": "category",
+									"value": "Fantasia"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get metrics paginated",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/books/metrics/paginated?author=J.K. Rowling&category=Fantasia&page=0&size=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"books",
+								"metrics",
+								"paginated"
+							],
+							"query": [
+								{
+									"key": "author",
+									"value": "J.K. Rowling"
+								},
+								{
+									"key": "category",
+									"value": "Fantasia"
 								},
 								{
 									"key": "page",
@@ -340,7 +430,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/search",
+							"raw": "http://localhost:8080/api/v1/users/search?include-books=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -354,14 +444,13 @@
 							],
 							"query": [
 								{
-									"key": "include-books",
-									"value": "false",
-									"disabled": true
-								},
-								{
 									"key": "name",
 									"value": "Rodrigo",
 									"disabled": true
+								},
+								{
+									"key": "include-books",
+									"value": "true"
 								}
 							]
 						}
@@ -467,7 +556,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/me?include-books=false",
+							"raw": "http://localhost:8080/api/v1/users/me",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -482,7 +571,8 @@
 							"query": [
 								{
 									"key": "include-books",
-									"value": "false"
+									"value": "false",
+									"disabled": true
 								}
 							]
 						}
@@ -515,7 +605,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/books/favorite/2",
+							"raw": "http://localhost:8080/api/v1/users/books/favorite/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -527,7 +617,7 @@
 								"users",
 								"books",
 								"favorite",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -559,7 +649,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/books/favorite/4",
+							"raw": "http://localhost:8080/api/v1/users/books/favorite/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -571,7 +661,7 @@
 								"users",
 								"books",
 								"favorite",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -647,7 +737,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/users/books/shelf/2",
+							"raw": "http://localhost:8080/api/v1/users/books/shelf/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -659,7 +749,59 @@
 								"users",
 								"books",
 								"shelf",
-								"2"
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/books/recomendations",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
+								"type": "text"
+							},
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/books/recomendations?limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"books",
+								"recomendations"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
 							]
 						}
 					},
@@ -705,6 +847,215 @@
 								"oauth2",
 								"authorization",
 								"google"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "interactions",
+			"item": [
+				{
+					"name": "/interactions/read_start",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/interactions/read_start/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"interactions",
+								"read_start",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/interactions/read_end",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/interactions/read_end/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"interactions",
+								"read_end",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/interactions/favorite_add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/interactions/favorite_add/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"interactions",
+								"favorite_add",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/interactions/favorite_remove",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/interactions/favorite_remove/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"interactions",
+								"favorite_remove",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/interactions/shelf_add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/interactions/shelf_add/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"interactions",
+								"shelf_add",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/interactions/shelf_remove",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{API_KEY_VALUE}}",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "BOUNDLESS_BOOKS_SESSION={{COOKIE}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/interactions/shelf_remove/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"interactions",
+								"shelf_remove",
+								"1"
 							]
 						}
 					},
