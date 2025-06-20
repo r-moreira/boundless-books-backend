@@ -110,7 +110,7 @@ The backend includes a Lambda architecture-based pipeline for processing EPUB fi
     cd pipeline;
     ```
 
-2.  **Build and Run Containers:
+2.  **Build and Run Containers**:
     ```sh
     # Build all pipeline-related containers
     docker-compose build
@@ -124,7 +124,7 @@ The backend includes a Lambda architecture-based pipeline for processing EPUB fi
 
 Here's an example of the environment variables for the `pipeline/.env` file:
 
-```.dotenv
+```dotenv
 MINIO_ROOT_USER=changeme
 MINIO_ROOT_PASSWORD=changeme
 POSTGRES_DB=changeme
